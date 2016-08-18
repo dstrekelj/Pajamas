@@ -13,11 +13,11 @@ import java.io.IOException;
 public class RecordPresenter implements RecordContract.Presenter {
     public static final String TAG = "RecordPresenter";
 
-    public static String file = Environment.getExternalStorageDirectory().getAbsolutePath() + "/test";
-
     private RecordContract.View view;
     private MediaRecorder recorder;
     private MediaPlayer player;
+
+    private String track;
 
     private boolean isPlaying = false;
     private boolean isRecording = false;
@@ -66,11 +66,16 @@ public class RecordPresenter implements RecordContract.Presenter {
         view.updateRecordState(isRecording);
     }
 
+    @Override
+    public void setTrack(String trackName) {
+        track = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + trackName;
+    }
+
     private void startPlaying() {
         player = new MediaPlayer();
 
         try {
-            player.setDataSource(file);
+            player.setDataSource(track);
             player.prepare();
             player.start();
         } catch (IOException e) {
@@ -89,7 +94,7 @@ public class RecordPresenter implements RecordContract.Presenter {
         recorder = new MediaRecorder();
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
-        recorder.setOutputFile(file);
+        recorder.setOutputFile(track);
         recorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
 
         try {

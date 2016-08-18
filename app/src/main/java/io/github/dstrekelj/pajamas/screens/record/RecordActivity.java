@@ -3,6 +3,7 @@ package io.github.dstrekelj.pajamas.screens.record;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import butterknife.BindView;
@@ -19,6 +20,9 @@ public class RecordActivity extends AppCompatActivity implements RecordContract.
 
     @BindView(R.id.activity_record_btn_record)
     Button btnRecord;
+
+    @BindView(R.id.activity_record_et_track_name)
+    EditText etTrackName;
 
     private RecordContract.Presenter presenter;
     private Unbinder unbinder;
@@ -63,6 +67,7 @@ public class RecordActivity extends AppCompatActivity implements RecordContract.
 
     @OnClick(R.id.activity_record_btn_record)
     void onClickRecord() {
+        presenter.setTrack(etTrackName.getText().toString());
         presenter.changeRecordState();
     }
 

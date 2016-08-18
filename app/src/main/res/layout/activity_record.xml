@@ -11,6 +11,14 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".screens.record.RecordActivity">
 
+    <EditText
+        android:id="@+id/activity_record_et_track_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:hint="@string/track_name"/>
+
     <Button
         android:id="@+id/activity_record_btn_record"
         android:layout_width="match_parent"

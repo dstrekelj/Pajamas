@@ -15,5 +15,6 @@ public interface RecordContract {
     interface Presenter extends BasePresenter {
         void changePlayState();
         void changeRecordState();
+        void setTrack(String trackName);
     }
 }
