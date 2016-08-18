@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Pajamas</string>
+
+    <!-- RECORD SCREEN -->
+    <string name="playing_start">Play</string>
+    <string name="playing_stop">Stop</string>
+    <string name="recording_start">Record</string>
+    <string name="recording_stop">Stop</string>
 </resources>
