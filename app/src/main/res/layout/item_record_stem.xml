@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Theme.RecordScreen.Stem">
+
+    <LinearLayout
+        android:background="@color/colorSecondary"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/offset_s">
+
+        <EditText
+            android:id="@+id/item_record_stem_et_stem_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/colorSecondaryDark"
+            android:hint="Stem name"/>
+
+        <LinearLayout
+            style="@style/Theme.RecordScreen.Stem.Options"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                style="@style/Theme.RecordScreen.Stem.Options.Button"
+                android:id="@+id/item_record_stem_ib_play_pause"
+                android:text="@string/stem_play"/>
+
+            <Button
+                style="@style/Theme.RecordScreen.Stem.Options.Button"
+                android:id="@+id/item_record_stem_ib_record"
+                android:layout_marginEnd="@dimen/offset_s"
+                android:layout_marginStart="@dimen/offset_s"
+                android:text="@string/stem_record"/>
+
+            <Button
+                style="@style/Theme.RecordScreen.Stem.Options.Button"
+                android:id="@+id/item_record_stem_ib_remove"
+                android:text="@string/stem_remove"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

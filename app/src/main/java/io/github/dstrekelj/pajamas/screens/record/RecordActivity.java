@@ -73,13 +73,13 @@ public class RecordActivity extends AppCompatActivity implements RecordContract.
 
     @Override
     public void updatePlayState(boolean isPlaying) {
-        btnPlay.setText(getResources().getString(isPlaying ? R.string.playing_stop : R.string.playing_start));
+        btnPlay.setText(getResources().getString(isPlaying ? R.string.stem_stop : R.string.stem_play));
         btnRecord.setEnabled(!isPlaying);
     }
 
     @Override
     public void updateRecordState(boolean isRecording) {
-        btnRecord.setText(getResources().getString(isRecording ? R.string.recording_stop : R.string.recording_start));
+        btnRecord.setText(getResources().getString(isRecording ? R.string.stem_stop : R.string.stem_record));
         btnPlay.setEnabled(!isRecording);
     }
 }

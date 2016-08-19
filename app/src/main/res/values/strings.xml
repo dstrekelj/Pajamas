@@ -3,8 +3,8 @@
 
     <!-- RECORD SCREEN -->
     <string name="track_name">Track name</string>
-    <string name="playing_start">Play</string>
-    <string name="playing_stop">Stop</string>
-    <string name="recording_start">Record</string>
-    <string name="recording_stop">Stop</string>
+    <string name="stem_play">Play</string>
+    <string name="stem_record">Record</string>
+    <string name="stem_stop">Stop</string>
+    <string name="stem_remove">Remove</string>
 </resources>

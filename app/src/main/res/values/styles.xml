@@ -8,4 +8,29 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="Theme.RecordScreen" parent="AppTheme">
+        <item name="android:background">#123456</item>
+    </style>
+
+    <style name="Theme.RecordScreen.Stem" parent="Base.CardView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/offset_s</item>
+    </style>
+<!--
+    <style name="Theme.RecordScreen.EditText" parent="Base.V12.Widget.AppCompat.EditText">
+        <item name="android:textColorHint">#654321</item>
+    </style>
+-->
+    <style name="Theme.RecordScreen.Stem.Options" parent="Theme.RecordScreen.Stem">
+        <item name="android:weightSum">3</item>
+    </style>
+
+    <style name="Theme.RecordScreen.Stem.Options.Button" parent="Base.Widget.AppCompat.Button">
+        <item name="android:background">@color/white</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">@dimen/min_clickable_size</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
 </resources>
