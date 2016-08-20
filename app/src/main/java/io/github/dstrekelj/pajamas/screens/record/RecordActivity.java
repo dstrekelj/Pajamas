@@ -5,6 +5,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -15,17 +16,21 @@ import butterknife.Unbinder;
 import io.github.dstrekelj.pajamas.R;
 import io.github.dstrekelj.pajamas.models.StemModel;
 import io.github.dstrekelj.pajamas.screens.record.adapters.StemItemsAdapter;
-import io.github.dstrekelj.pajamas.screens.record.impl.TrackTitleTextWatcher;
 
 public class RecordActivity extends AppCompatActivity implements RecordContract.View, StemItemsAdapter.StemItemsAdapterListener {
     public static final String TAG = "RecordActivity";
 
-    @BindView(R.id.activity_record_et_track_title)
-    EditText etTrackTitle;
+
     @BindView(R.id.activity_record_fab_add_stem)
     FloatingActionButton fabAddStem;
     @BindView(R.id.activity_record_rv_stems)
     RecyclerView rvStems;
+    @BindView(R.id.component_record_track_btn_finalize_track)
+    Button btnFinalizeTrack;
+    @BindView(R.id.component_record_track_btn_play_track)
+    Button btnPlayTrack;
+    @BindView(R.id.component_record_track_et_track_title)
+    EditText etTrackTitle;
 
     private RecordContract.Presenter presenter;
     private StemItemsAdapter adapter;
@@ -44,7 +49,6 @@ public class RecordActivity extends AppCompatActivity implements RecordContract.
         rvStems.setLayoutManager(new LinearLayoutManager(this));
 
         presenter = new RecordPresenter(this);
-        etTrackTitle.addTextChangedListener(new TrackTitleTextWatcher(presenter));
 
         presenter.start();
     }
@@ -107,7 +111,15 @@ public class RecordActivity extends AppCompatActivity implements RecordContract.
         etTrackTitle.setText(title);
     }
 
-    @OnClick(R.id.activity_record_fab_add_stem) void onClickFabAddStem() {
+    @OnClick(R.id.activity_record_fab_add_stem) void onClickAddStem() {
         presenter.createStem();
+    }
+
+    @OnClick(R.id.component_record_track_btn_finalize_track) void onClickFinalizeTrack() {
+        presenter.finalizeTrack();
+    }
+
+    @OnClick(R.id.component_record_track_btn_play_track) void onClickPlayTrack() {
+        presenter.updateTrackPlayPauseState();
     }
 }

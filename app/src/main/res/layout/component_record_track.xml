@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            style="@style/AppTheme.Pajamas.EditText"
+            android:id="@+id/component_record_track_et_track_title"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/min_clickable_size"
+            android:layout_marginBottom="@dimen/offset_s"
+            android:hint="@string/track_title"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2">
+
+        <Button
+            style="@style/AppTheme.Pajamas.Button"
+            android:id="@+id/component_record_track_btn_play_track"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/track_play"/>
+
+        <Button
+            style="@style/AppTheme.Pajamas.Button"
+            android:id="@+id/component_record_track_btn_finalize_track"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/track_finalize"/>
+
+    </LinearLayout>
+
+</LinearLayout>

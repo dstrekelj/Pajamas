@@ -8,31 +8,38 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="Theme.RecordScreen" parent="AppTheme">
+    <style name="AppTheme.Pajamas.EditText" parent="Base.V12.Widget.AppCompat.EditText">
+    </style>
+
+    <style name="AppTheme.Pajamas.Button" parent="Base.Widget.AppCompat.Button">
+        <item name="android:layout_height">@dimen/min_clickable_size</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="AppTheme.Pajamas.RecordScreen" parent="AppTheme">
         <item name="android:background">#123456</item>
     </style>
 
-    <style name="Theme.RecordScreen.Stem" parent="Base.CardView">
+    <style name="AppTheme.Pajamas.RecordScreen.Stem" parent="Base.CardView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">@dimen/offset_s</item>
     </style>
-<!--
-    <style name="Theme.RecordScreen.EditText" parent="Base.V12.Widget.AppCompat.EditText">
-        <item name="android:textColorHint">#654321</item>
+
+    <style name="AppTheme.Pajamas.RecordScreen.EditText" parent="AppTheme.Pajamas.EditText">
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
     </style>
--->
-    <style name="Theme.RecordScreen.Stem.Options" parent="Theme.RecordScreen.Stem">
+
+    <style name="AppTheme.Pajamas.RecordScreen.Stem.Options" parent="AppTheme.Pajamas.RecordScreen.Stem">
         <item name="android:weightSum">3</item>
     </style>
 
-    <style name="Theme.RecordScreen.Stem.Options.Button" parent="Base.Widget.AppCompat.Button">
+    <style name="AppTheme.Pajamas.RecordScreen.Stem.Options.Button" parent="AppTheme.Pajamas.Button">
         <item name="android:background">@color/white</item>
         <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">@dimen/min_clickable_size</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:ellipsize">end</item>
     </style>
 
 </resources>

@@ -54,7 +54,10 @@ public class RecordPresenter implements RecordContract.Presenter {
     }
 
     @Override
-    public void updateTrackTitle(String title) {
-        sessionManager.setTrackTitle(title);
+    public void updateTrackPlayPauseState() {
+    }
+
+    @Override
+    public void finalizeTrack() {
     }
 }
