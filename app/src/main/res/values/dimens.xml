@@ -8,4 +8,10 @@
     <dimen name="offset_m">16dp</dimen>
     <dimen name="offset_l">32dp</dimen>
     <dimen name="min_clickable_size">48dp</dimen>
+
+    <!-- TEXT -->
+    <dimen name="text_s">8sp</dimen>
+    <dimen name="text_m">12sp</dimen>
+    <dimen name="text_l">16sp</dimen>
+    <dimen name="text_xl">20sp</dimen>
 </resources>
