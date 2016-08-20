@@ -13,14 +13,18 @@
         android:layout_height="match_parent"
         android:padding="@dimen/offset_m">
 
-        <EditText
-            android:id="@+id/activity_record_et_track_title"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/min_clickable_size"
-            android:layout_marginBottom="@dimen/offset_s"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:hint="@string/track_name"/>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/activity_record_et_track_title"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/min_clickable_size"
+                android:layout_marginBottom="@dimen/offset_s"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:hint="@string/track_name"/>
+        </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/activity_record_rv_stems"

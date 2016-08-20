@@ -19,6 +19,7 @@ public interface RecordContract {
         void deleteStem(StemModel stem);
         void updateStemPlayPauseState(StemModel stem);
         void updateStemRecordState(StemModel stem);
+        void updateStemTitle(String title);
         void updateTrackTitle(String title);
     }
 }
