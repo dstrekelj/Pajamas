@@ -1,5 +1,6 @@
 package io.github.dstrekelj.pajamas.screens.record;
 
+import io.github.dstrekelj.pajamas.models.StemModel;
 import io.github.dstrekelj.pajamas.screens.common.BasePresenter;
 import io.github.dstrekelj.pajamas.screens.common.BaseView;
 
@@ -8,13 +9,16 @@ import io.github.dstrekelj.pajamas.screens.common.BaseView;
  */
 public interface RecordContract {
     interface View extends BaseView {
-        void updatePlayState(boolean isPlaying);
-        void updateRecordState(boolean isRecording);
+        void displayStemInsertion(StemModel stem);
+        void displayStemRemoval(StemModel stem);
+        void displayTrackTitle(String title);
     }
 
     interface Presenter extends BasePresenter {
-        void changePlayState();
-        void changeRecordState();
-        void setTrack(String trackName);
+        void createStem();
+        void deleteStem(StemModel stem);
+        void updateStemPlayPauseState(StemModel stem);
+        void updateStemRecordState(StemModel stem);
+        void updateTrackTitle(String title);
     }
 }
