@@ -1,6 +1,9 @@
 package io.github.dstrekelj.pajamas.screens.record;
 
-import io.github.dstrekelj.pajamas.common.RecordingSessionManager;
+import android.icu.text.AlphabeticIndex;
+
+import io.github.dstrekelj.pajamas.recorder.Recorder;
+import io.github.dstrekelj.pajamas.recorder.RecordingSession;
 import io.github.dstrekelj.pajamas.models.StemModel;
 
 /**
@@ -10,12 +13,12 @@ public class RecordPresenter implements RecordContract.Presenter {
     public static final String TAG = "RecordPresenter";
 
     private RecordContract.View view;
-    private RecordingSessionManager sessionManager;
+    private RecordingSession sessionManager;
 
     public RecordPresenter(RecordContract.View view) {
         this.view = view;
 
-        sessionManager = new RecordingSessionManager();
+        sessionManager = new RecordingSession();
     }
 
     @Override
@@ -49,8 +52,16 @@ public class RecordPresenter implements RecordContract.Presenter {
     public void updateStemPlayPauseState(StemModel stem) {
     }
 
+    private boolean isRecordingStem = false;
     @Override
     public void updateStemRecordState(StemModel stem) {
+        if (isRecordingStem) {
+            Recorder.stop(stem);
+        } else {
+            Recorder.record(stem);
+        }
+        isRecordingStem = !isRecordingStem;
+
     }
 
     @Override

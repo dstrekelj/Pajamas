@@ -1,4 +1,4 @@
-package io.github.dstrekelj.pajamas.common;
+package io.github.dstrekelj.pajamas.recorder;
 
 import java.util.ArrayList;
 
@@ -8,14 +8,14 @@ import io.github.dstrekelj.pajamas.models.TrackModel;
 /**
  * TODO: Comment.
  */
-public class RecordingSessionManager {
-    public static final String TAG = "RecordingSessionManager";
+public class RecordingSession {
+    public static final String TAG = "RecordingSession";
 
     private TrackModel track;
 
     private int numberOfCreatedStems;
 
-    public RecordingSessionManager() {
+    public RecordingSession() {
         track = new TrackModel();
         track.setTitle("Untitled Track");
         track.setStems(new ArrayList<StemModel>());
