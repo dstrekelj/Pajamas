@@ -2,6 +2,7 @@ package io.github.dstrekelj.pajamas.recorder;
 
 import android.util.Log;
 
+import java.nio.ShortBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class StemRecorder extends PcmRecorderRunnable {
     public static final String TAG = "StemRecorder";
 
     private StemModel stem;
+    // TODO: 21.8.2016. Use ShortBuffer?
     private List<Short> sampleBuffer;
 
     public StemRecorder(int audioFormat, int audioSource, int channelConfiguration, int sampleRate) {
@@ -30,10 +32,10 @@ public class StemRecorder extends PcmRecorderRunnable {
     }
 
     @Override
-    protected void onRecord(short[] buffer, int numberOfRecordedBytes, long numberOfRecordedSamples) {
-        Log.d(TAG, "Recorded " + numberOfRecordedBytes + " bytes of stem " + stem.getTitle());
-        for (int i = 0; i < numberOfRecordedBytes; i += 2) {
-            sampleBuffer.add((short) (buffer[i+1] << 8 & buffer[i]));
+    protected void onRecord(short[] buffer, int numberOfRecordedShorts, long numberOfTotalRecordedShorts) {
+        Log.d(TAG, "Recorded " + numberOfRecordedShorts + " samples (" + numberOfTotalRecordedShorts + " total) of stem " + stem.getTitle());
+        for (int i = 0; i < numberOfRecordedShorts; i++) {
+            sampleBuffer.add(buffer[i]);
         }
     }
 
@@ -44,11 +46,10 @@ public class StemRecorder extends PcmRecorderRunnable {
     }
 
     @Override
-    protected void onRecordStop(long numberOfRecordedSamples) {
-        Log.d(TAG, "Stopped recording stem " + stem.getTitle() + " after " + numberOfRecordedSamples + " samples");
-        Log.d(TAG, sampleBuffer.size()+"");
-        short[] buffer = new short[(int)numberOfRecordedSamples / 2];
-        for (int i = 1; i < sampleBuffer.size(); i++) {
+    protected void onRecordStop(long numberOfTotalRecordedShorts) {
+        Log.d(TAG, "Stopped recording stem " + stem.getTitle() + " after " + numberOfTotalRecordedShorts + " samples");
+        short[] buffer = new short[(int)numberOfTotalRecordedShorts];
+        for (int i = 0; i < sampleBuffer.size(); i++) {
             buffer[i] = sampleBuffer.get(i);
         }
         stem.setBuffer(buffer);

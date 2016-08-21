@@ -11,9 +11,6 @@ import java.nio.ShortBuffer;
 public abstract class PcmPlayerRunnable implements Runnable {
     public static final String TAG = "PcmPlayerRunnable";
 
-    protected ShortBuffer samples;
-    protected int numberOfSamples;
-
     private int audioFormat;
     private int channelConfiguration;
     private int sampleRate;
@@ -58,7 +55,7 @@ public abstract class PcmPlayerRunnable implements Runnable {
         );
 
         audioTrack.play();
-        samples = onPlayerStart();
+        ShortBuffer samples = onPlayerStart();
 
         short[] buffer = new short[minBufferSize];
         samples.rewind();

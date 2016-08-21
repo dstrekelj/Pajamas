@@ -41,6 +41,7 @@ public abstract class PcmRecorderRunnable implements Runnable {
         );
 
         if (minBufferSize == AudioRecord.ERROR || minBufferSize == AudioRecord.ERROR_BAD_VALUE) {
+            Log.d(TAG, "Unable to detect minimum buffer size");
             minBufferSize = sampleRate * 2;
         }
 
@@ -62,25 +63,25 @@ public abstract class PcmRecorderRunnable implements Runnable {
         record.startRecording();
         onRecordStart();
 
-        long samplesRead = 0;
+        long numberOfTotalRecordedShorts = 0;
         while (isRecording) {
-            int bytesRead = record.read(
+            int numberOfRecordedShorts = record.read(
                     buffer,
                     0,
                     buffer.length
             );
-            samplesRead += bytesRead;
+            numberOfTotalRecordedShorts += numberOfRecordedShorts;
 
-            onRecord(buffer, bytesRead, samplesRead);
+            onRecord(buffer, numberOfRecordedShorts, numberOfTotalRecordedShorts);
         }
 
         record.stop();
-        onRecordStop(samplesRead);
-
         record.release();
+
+        onRecordStop(numberOfTotalRecordedShorts);
     }
 
-    protected abstract void onRecord(short[] buffer, int numberOfRecordedBytes, long numberOfRecordedSamples);
+    protected abstract void onRecord(short[] buffer, int numberOfRecordedShorts, long numberOfTotalRecordedShorts);
     protected abstract void onRecordStart();
-    protected abstract void onRecordStop(long numberOfRecordedSamples);
+    protected abstract void onRecordStop(long numberOfTotalRecordedShorts);
 }
