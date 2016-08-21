@@ -20,7 +20,6 @@ import io.github.dstrekelj.pajamas.screens.record.adapters.StemItemsAdapter;
 public class RecordActivity extends AppCompatActivity implements RecordContract.View, StemItemsAdapter.StemItemsAdapterListener {
     public static final String TAG = "RecordActivity";
 
-
     @BindView(R.id.activity_record_fab_add_stem)
     FloatingActionButton fabAddStem;
     @BindView(R.id.activity_record_rv_stems)
@@ -62,11 +61,6 @@ public class RecordActivity extends AppCompatActivity implements RecordContract.
         adapter = null;
         unbinder = null;
         presenter = null;
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
     }
 
     @Override
