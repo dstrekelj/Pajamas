@@ -1,5 +1,7 @@
 package io.github.dstrekelj.pajamas.screens.record;
 
+import java.util.HashMap;
+
 import io.github.dstrekelj.pajamas.models.StemModel;
 import io.github.dstrekelj.pajamas.recorder.RecordingSession;
 import io.github.dstrekelj.pajamas.recorder.StemPlayer;
@@ -15,16 +17,16 @@ public class RecordPresenter implements RecordContract.Presenter {
 
     private RecordContract.View view;
     private RecordingSession recordingSession;
-    private StemPlayer stemPlayer;
-    private StemRecorder stemRecorder;
 
-    private boolean isPlayingStem = false;
-    private boolean isRecordingStem = false;
+    private HashMap<Integer, StemPlayer> stemPlayerMap;
+    private HashMap<Integer, StemRecorder> stemRecorderMap;
 
     public RecordPresenter(RecordContract.View view) {
         this.view = view;
 
         recordingSession = new RecordingSession();
+        stemPlayerMap = new HashMap<>();
+        stemRecorderMap = new HashMap<>();
     }
 
     @Override
@@ -57,22 +59,22 @@ public class RecordPresenter implements RecordContract.Presenter {
 
     @Override
     public void updateStemPlayPauseState(StemModel stem) {
-        if (isPlayingStem) {
-            if (stemPlayer != null) stemPlayer.stop();
+        if (stemPlayerMap.containsKey(stem.getId())) {
+            stemPlayerMap.get(stem.getId()).stop();
+            stemPlayerMap.remove(stem.getId());
         } else {
-            stemPlayer = StemPlayerFactory.getStemPlayer(stem);
+            stemPlayerMap.put(stem.getId(), StemPlayerFactory.getStemPlayer(stem));
         }
-        isPlayingStem = !isPlayingStem;
     }
 
     @Override
     public void updateStemRecordState(StemModel stem) {
-        if (isRecordingStem) {
-            if (stemRecorder != null) stemRecorder.stop();
+        if (stemRecorderMap.containsKey(stem.getId())) {
+            stemRecorderMap.get(stem.getId()).stop();
+            stemRecorderMap.remove(stem.getId());
         } else {
-            stemRecorder = StemRecorderFactory.getStemRecorder(stem);
+            stemRecorderMap.put(stem.getId(), StemRecorderFactory.getStemRecorder(stem));
         }
-        isRecordingStem = !isRecordingStem;
     }
 
     @Override

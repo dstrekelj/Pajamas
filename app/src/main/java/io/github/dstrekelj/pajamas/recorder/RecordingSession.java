@@ -1,6 +1,7 @@
 package io.github.dstrekelj.pajamas.recorder;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import io.github.dstrekelj.pajamas.models.StemModel;
 import io.github.dstrekelj.pajamas.models.TrackModel;
@@ -38,6 +39,7 @@ public class RecordingSession {
     public StemModel createStem() {
         StemModel stem = new StemModel();
         stem.setTitle((numberOfCreatedStems == 0) ? "Untitled Stem" : "Untitled Stem #" + numberOfCreatedStems);
+        stem.setId(numberOfCreatedStems);
         track.getStems().add(stem);
         numberOfCreatedStems += 1;
         return stem;

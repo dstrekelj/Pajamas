@@ -26,6 +26,10 @@ public abstract class PcmPlayerRunnable implements Runnable {
         this.streamType = streamType;
     }
 
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
     public void stop() {
         Log.d(TAG, "Stopping playback");
         isPlaying = false;

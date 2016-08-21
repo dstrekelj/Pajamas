@@ -24,6 +24,10 @@ public abstract class PcmRecorderRunnable implements Runnable {
         this.sampleRate = sampleRate;
     }
 
+    public boolean isRecording() {
+        return isRecording;
+    }
+
     public void stop() {
         isRecording = false;
     }

@@ -6,14 +6,24 @@ import java.nio.ShortBuffer;
  * TODO: Comment.
  */
 public class StemModel {
+    private int id;
     private String title;
     private ShortBuffer buffer;
 
     public StemModel() {}
 
-    public StemModel(String title, ShortBuffer buffer) {
+    public StemModel(int id, String title, ShortBuffer buffer) {
+        this.id = id;
         this.title = title;
         this.buffer = buffer;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {
