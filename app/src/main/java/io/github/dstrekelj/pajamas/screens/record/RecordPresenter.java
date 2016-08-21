@@ -1,9 +1,11 @@
 package io.github.dstrekelj.pajamas.screens.record;
 
-import io.github.dstrekelj.pajamas.recorder.Recorder;
-import io.github.dstrekelj.pajamas.recorder.RecordingSession;
 import io.github.dstrekelj.pajamas.models.StemModel;
+import io.github.dstrekelj.pajamas.recorder.RecordingSession;
+import io.github.dstrekelj.pajamas.recorder.StemPlayer;
+import io.github.dstrekelj.pajamas.recorder.StemPlayerFactory;
 import io.github.dstrekelj.pajamas.recorder.StemRecorder;
+import io.github.dstrekelj.pajamas.recorder.StemRecorderFactory;
 
 /**
  * TODO: Comment.
@@ -13,8 +15,11 @@ public class RecordPresenter implements RecordContract.Presenter {
 
     private RecordContract.View view;
     private RecordingSession recordingSession;
-
+    private StemPlayer stemPlayer;
     private StemRecorder stemRecorder;
+
+    private boolean isPlayingStem = false;
+    private boolean isRecordingStem = false;
 
     public RecordPresenter(RecordContract.View view) {
         this.view = view;
@@ -52,15 +57,20 @@ public class RecordPresenter implements RecordContract.Presenter {
 
     @Override
     public void updateStemPlayPauseState(StemModel stem) {
+        if (isPlayingStem) {
+            if (stemPlayer != null) stemPlayer.stop();
+        } else {
+            stemPlayer = StemPlayerFactory.getStemPlayer(stem);
+        }
+        isPlayingStem = !isPlayingStem;
     }
 
-    private boolean isRecordingStem = false;
     @Override
     public void updateStemRecordState(StemModel stem) {
         if (isRecordingStem) {
             if (stemRecorder != null) stemRecorder.stop();
         } else {
-            stemRecorder = Recorder.record(stem);
+            stemRecorder = StemRecorderFactory.getStemRecorder(stem);
         }
         isRecordingStem = !isRecordingStem;
     }

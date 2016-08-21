@@ -1,4 +1,4 @@
-package io.github.dstrekelj.pajamas.util;
+package io.github.dstrekelj.toolkit.audio;
 
 import android.media.AudioRecord;
 import android.os.Process;

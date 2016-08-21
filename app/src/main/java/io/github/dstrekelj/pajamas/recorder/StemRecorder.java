@@ -3,7 +3,7 @@ package io.github.dstrekelj.pajamas.recorder;
 import android.util.Log;
 
 import io.github.dstrekelj.pajamas.models.StemModel;
-import io.github.dstrekelj.pajamas.util.PcmRecorderRunnable;
+import io.github.dstrekelj.toolkit.audio.PcmRecorderRunnable;
 
 /**
  * TODO: Comment.
