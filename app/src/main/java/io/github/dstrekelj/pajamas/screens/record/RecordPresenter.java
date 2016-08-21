@@ -1,10 +1,9 @@
 package io.github.dstrekelj.pajamas.screens.record;
 
-import android.icu.text.AlphabeticIndex;
-
 import io.github.dstrekelj.pajamas.recorder.Recorder;
 import io.github.dstrekelj.pajamas.recorder.RecordingSession;
 import io.github.dstrekelj.pajamas.models.StemModel;
+import io.github.dstrekelj.pajamas.recorder.StemRecorder;
 
 /**
  * TODO: Comment.
@@ -13,38 +12,41 @@ public class RecordPresenter implements RecordContract.Presenter {
     public static final String TAG = "RecordPresenter";
 
     private RecordContract.View view;
-    private RecordingSession sessionManager;
+    private RecordingSession recordingSession;
+
+    private StemRecorder stemRecorder;
 
     public RecordPresenter(RecordContract.View view) {
         this.view = view;
 
-        sessionManager = new RecordingSession();
+        recordingSession = new RecordingSession();
     }
 
     @Override
     public void destroy() {
-        sessionManager.destroy();
-        sessionManager = null;
+        recordingSession.destroy();
+        recordingSession = null;
     }
 
     @Override
     public void start() {
-        view.displayTrackTitle(sessionManager.getTrackTitle());
+        view.displayTrackTitle(recordingSession.getTrackTitle());
     }
 
     @Override
     public void stop() {
+        // TODO: 21.8.2016. Stop currently active recording or playback
     }
 
     @Override
     public void createStem() {
-        StemModel stem = sessionManager.createStem();
+        StemModel stem = recordingSession.createStem();
         view.displayStemInsertion(stem);
     }
 
     @Override
     public void deleteStem(StemModel stem) {
-        sessionManager.deleteStem(stem);
+        recordingSession.deleteStem(stem);
         view.displayStemRemoval(stem);
     }
 
@@ -56,12 +58,11 @@ public class RecordPresenter implements RecordContract.Presenter {
     @Override
     public void updateStemRecordState(StemModel stem) {
         if (isRecordingStem) {
-            Recorder.stop(stem);
+            if (stemRecorder != null) stemRecorder.stop();
         } else {
-            Recorder.record(stem);
+            stemRecorder = Recorder.record(stem);
         }
         isRecordingStem = !isRecordingStem;
-
     }
 
     @Override

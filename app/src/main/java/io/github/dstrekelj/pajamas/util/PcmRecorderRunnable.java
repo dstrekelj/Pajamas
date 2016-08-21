@@ -1,4 +1,4 @@
-package io.github.dstrekelj.pajamas.recorder.runnables;
+package io.github.dstrekelj.pajamas.util;
 
 import android.media.AudioRecord;
 import android.os.Process;
@@ -7,55 +7,21 @@ import android.util.Log;
 /**
  * TODO: Comment.
  */
-public class RecordRunnable implements Runnable {
-    public static final String TAG = "RecordRunnable";
+public abstract class PcmRecorderRunnable implements Runnable {
+    public static final String TAG = "PcmRecorderRunnable";
 
-    private int audioSource;
-    private int sampleRate;
-    private int channelConfiguration;
     private int audioFormat;
-    private boolean isRecording = true;
+    private int audioSource;
+    private int channelConfiguration;
+    private int sampleRate;
 
-    public RecordRunnable() {
-    }
+    private boolean isRecording;
 
-    public RecordRunnable(int audioSource, int sampleRate, int channelConfiguration, int audioFormat) {
-        this.audioSource = audioSource;
-        this.sampleRate = sampleRate;
-        this.channelConfiguration = channelConfiguration;
+    public PcmRecorderRunnable(int audioFormat, int audioSource, int channelConfiguration, int sampleRate) {
         this.audioFormat = audioFormat;
-    }
-
-    public int getAudioSource() {
-        return audioSource;
-    }
-
-    public void setAudioSource(int audioSource) {
         this.audioSource = audioSource;
-    }
-
-    public int getSampleRate() {
-        return sampleRate;
-    }
-
-    public void setSampleRate(int sampleRate) {
-        this.sampleRate = sampleRate;
-    }
-
-    public int getChannelConfiguration() {
-        return channelConfiguration;
-    }
-
-    public void setChannelConfiguration(int channelConfiguration) {
         this.channelConfiguration = channelConfiguration;
-    }
-
-    public int getAudioFormat() {
-        return audioFormat;
-    }
-
-    public void setAudioFormat(int audioFormat) {
-        this.audioFormat = audioFormat;
+        this.sampleRate = sampleRate;
     }
 
     public void stop() {
@@ -94,18 +60,27 @@ public class RecordRunnable implements Runnable {
         }
 
         record.startRecording();
+        onRecordStart();
 
         long samplesRead = 0;
         while (isRecording) {
-            int sampleNumber = record.read(
+            int bytesRead = record.read(
                     buffer,
                     0,
                     buffer.length
             );
-            samplesRead += sampleNumber;
+            samplesRead += bytesRead;
+
+            onRecord(buffer, bytesRead, samplesRead);
         }
-        Log.d(TAG, "Recorded " + samplesRead + " samples");
+
         record.stop();
+        onRecordStop(samplesRead);
+
         record.release();
     }
+
+    protected abstract void onRecord(short[] buffer, int numberOfRecordedBytes, long numberOfRecordedSamples);
+    protected abstract void onRecordStart();
+    protected abstract void onRecordStop(long numberOfRecordedSamples);
 }
