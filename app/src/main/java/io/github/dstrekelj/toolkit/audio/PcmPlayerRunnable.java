@@ -58,11 +58,11 @@ public abstract class PcmPlayerRunnable implements Runnable {
         );
 
         audioTrack.play();
-        onPlayerStart();
+        samples = onPlayerStart();
 
         short[] buffer = new short[minBufferSize];
         samples.rewind();
-        int limit = numberOfSamples;
+        int limit = samples.capacity();
         int numberOfWrittenSamples = 0;
         while (samples.position() < limit && isPlaying) {
             int numberOfLeftoverSamples = limit - samples.position();
@@ -89,6 +89,6 @@ public abstract class PcmPlayerRunnable implements Runnable {
     }
 
     protected abstract void onPlay();
-    protected abstract void onPlayerStart();
+    protected abstract ShortBuffer onPlayerStart();
     protected abstract void onPlayerStop();
 }

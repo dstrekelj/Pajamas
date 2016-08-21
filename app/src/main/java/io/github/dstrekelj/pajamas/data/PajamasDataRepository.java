@@ -8,12 +8,12 @@ import io.github.dstrekelj.pajamas.data.sources.PajamasLocalDataSource;
 /**
  * TODO: Comment.
  */
-public class PajamasDataRepository implements IPajamasDataSource {
+public class PajamasDataRepository {
     public static final String TAG = "PajamasDataRepository";
 
     private static PajamasDataRepository instance = null;
 
-    private IPajamasDataSource localDataSource;
+    public IPajamasDataSource localDataSource;
 
     private PajamasDataRepository(Context context) {
         localDataSource = PajamasLocalDataSource.getInstance(context);

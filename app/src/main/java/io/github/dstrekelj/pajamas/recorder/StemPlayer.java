@@ -2,6 +2,8 @@ package io.github.dstrekelj.pajamas.recorder;
 
 import android.util.Log;
 
+import java.nio.ShortBuffer;
+
 import io.github.dstrekelj.pajamas.models.StemModel;
 import io.github.dstrekelj.toolkit.audio.PcmPlayerRunnable;
 
@@ -27,8 +29,11 @@ public class StemPlayer extends PcmPlayerRunnable {
     }
 
     @Override
-    protected void onPlayerStart() {
+    protected ShortBuffer onPlayerStart() {
         Log.d(TAG, "Started playing stem " + stem.getTitle());
+        ShortBuffer b = ShortBuffer.allocate(stem.getBuffer().length);
+        b.put(stem.getBuffer());
+        return b;
     }
 
     @Override
