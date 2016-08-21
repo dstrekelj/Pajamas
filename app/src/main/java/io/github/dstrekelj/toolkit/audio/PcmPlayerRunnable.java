@@ -2,6 +2,7 @@ package io.github.dstrekelj.toolkit.audio;
 
 import android.media.AudioTrack;
 import android.os.Process;
+import android.util.Log;
 
 import java.nio.ShortBuffer;
 
@@ -26,6 +27,7 @@ public abstract class PcmPlayerRunnable implements Runnable {
     }
 
     public void stop() {
+        Log.d(TAG, "Stopping playback");
         isPlaying = false;
     }
 
@@ -60,7 +62,6 @@ public abstract class PcmPlayerRunnable implements Runnable {
         short[] buffer = new short[minBufferSize];
         samples.rewind();
         int limit = samples.capacity();
-        int numberOfWrittenSamples = 0;
         while (samples.position() < limit && isPlaying) {
             int numberOfLeftoverSamples = limit - samples.position();
             int numberOfSamplesToWrite;
@@ -74,7 +75,6 @@ public abstract class PcmPlayerRunnable implements Runnable {
                 samples.get(buffer, 0, numberOfLeftoverSamples);
                 numberOfSamplesToWrite = numberOfLeftoverSamples;
             }
-            numberOfWrittenSamples += numberOfSamplesToWrite;
             audioTrack.write(buffer, 0, numberOfSamplesToWrite);
             onPlay();
         }

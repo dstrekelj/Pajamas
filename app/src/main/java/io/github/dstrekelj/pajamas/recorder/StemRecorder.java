@@ -16,7 +16,6 @@ public class StemRecorder extends PcmRecorderRunnable {
     public static final String TAG = "StemRecorder";
 
     private StemModel stem;
-    // TODO: 21.8.2016. Use ShortBuffer?
     private List<Short> sampleBuffer;
 
     public StemRecorder(int audioFormat, int audioSource, int channelConfiguration, int sampleRate) {
@@ -52,6 +51,6 @@ public class StemRecorder extends PcmRecorderRunnable {
         for (int i = 0; i < sampleBuffer.size(); i++) {
             buffer[i] = sampleBuffer.get(i);
         }
-        stem.setBuffer(buffer);
+        stem.setBuffer(ShortBuffer.wrap(buffer));
     }
 }

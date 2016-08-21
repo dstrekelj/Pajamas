@@ -1,15 +1,17 @@
 package io.github.dstrekelj.pajamas.models;
 
+import java.nio.ShortBuffer;
+
 /**
  * TODO: Comment.
  */
 public class StemModel {
     private String title;
-    private short[] buffer;
+    private ShortBuffer buffer;
 
     public StemModel() {}
 
-    public StemModel(String title, short[] buffer) {
+    public StemModel(String title, ShortBuffer buffer) {
         this.title = title;
         this.buffer = buffer;
     }
@@ -22,11 +24,11 @@ public class StemModel {
         this.title = title;
     }
 
-    public short[] getBuffer() {
+    public ShortBuffer getBuffer() {
         return buffer;
     }
 
-    public void setBuffer(short[] buffer) {
+    public void setBuffer(ShortBuffer buffer) {
         this.buffer = buffer;
     }
 }

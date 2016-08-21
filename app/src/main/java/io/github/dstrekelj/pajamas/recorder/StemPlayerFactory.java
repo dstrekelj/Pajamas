@@ -24,7 +24,7 @@ public class StemPlayerFactory {
                 STREAM_TYPE
         );
         stemPlayer.setStem(stem);
-        new Thread(stemPlayer).run();
+        new Thread(stemPlayer).start();
         return stemPlayer;
     }
 }

@@ -31,9 +31,7 @@ public class StemPlayer extends PcmPlayerRunnable {
     @Override
     protected ShortBuffer onPlayerStart() {
         Log.d(TAG, "Started playing stem " + stem.getTitle());
-        ShortBuffer b = ShortBuffer.allocate(stem.getBuffer().length);
-        b.put(stem.getBuffer());
-        return b;
+        return stem.getBuffer();
     }
 
     @Override
