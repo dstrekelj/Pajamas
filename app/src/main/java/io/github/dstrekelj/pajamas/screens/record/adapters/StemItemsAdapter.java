@@ -16,6 +16,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.github.dstrekelj.pajamas.R;
 import io.github.dstrekelj.pajamas.models.StemModel;
+import io.github.dstrekelj.pajamas.screens.record.impl.StemTitleTextWatcher;
 
 /**
  * TODO: Comment.
@@ -85,7 +86,9 @@ public class StemItemsAdapter extends RecyclerView.Adapter<StemItemsAdapter.Stem
 
     @Override
     public void onBindViewHolder(StemViewHolder holder, int position) {
-        holder.etStemTitle.setText(items.get(position).getTitle());
+        StemModel item = items.get(position);
+        holder.etStemTitle.setText(item.getTitle());
+        holder.etStemTitle.addTextChangedListener(new StemTitleTextWatcher(item));
     }
 
     @Override
