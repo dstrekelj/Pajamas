@@ -13,6 +13,16 @@ import io.github.dstrekelj.pajamas.models.TrackModel;
 public class RecordingSession {
     public static final String TAG = "RecordingSession";
 
+    public static final int STEM_PLAYER_ACTIVE = 0;
+    public static final int STEM_PLAYER_STOPPED = 1;
+
+    public static final int STEM_RECORDER_ACTIVE = 2;
+    public static final int STEM_RECORDER_BUSY = 3;
+    public static final int STEM_RECORDER_STOPPED = 4;
+
+    public static final int TRACK_PLAYER_ACTIVE = 5;
+    public static final int TRACK_PLAYER_STOPPED = 6;
+
     private TrackModel track;
 
     private HashMap<Integer, StemPlayer> stemPlayers;
@@ -63,24 +73,24 @@ public class RecordingSession {
         if (isPlayingStem(stem)) {
             stemPlayers.get(stem.getId()).stop();
             stemPlayers.remove(stem.getId());
-            return StemPlayer.STATE_STOPPED;
+            return STEM_PLAYER_STOPPED;
         } else {
             stemPlayers.put(stem.getId(), StemPlayerFactory.getStemPlayer(stem));
-            return StemPlayer.STATE_PLAYING;
+            return STEM_PLAYER_ACTIVE;
         }
     }
 
     public int updateStemRecordState(StemModel stem) {
         if (isRecordingStem(stem)) {
             stemRecorder.stop();
-            return StemRecorder.STATE_STOPPED;
+            return STEM_RECORDER_STOPPED;
         } else {
             if (stemRecorder == null) {
                 stemRecorder = StemRecorderFactory.getStemRecorder(stem);
-                return StemRecorder.STATE_RECORDING;
+                return STEM_RECORDER_ACTIVE;
             }
         }
-        return StemRecorder.STATE_BUSY;
+        return STEM_RECORDER_BUSY;
     }
 
     public boolean isPlayingStem(StemModel stem) {

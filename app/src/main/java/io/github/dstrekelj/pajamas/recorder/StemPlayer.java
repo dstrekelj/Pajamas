@@ -13,9 +13,6 @@ import io.github.dstrekelj.toolkit.audio.PcmPlayerRunnable;
 public class StemPlayer extends PcmPlayerRunnable {
     public static final String TAG = "StemPlayer";
 
-    public static final int STATE_PLAYING = 0;
-    public static final int STATE_STOPPED = 1;
-
     private StemModel stem;
 
     public StemPlayer(int audioFormat, int channelConfiguration, int sampleRate, int streamType) {

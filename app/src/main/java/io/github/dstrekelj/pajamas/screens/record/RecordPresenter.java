@@ -63,7 +63,8 @@ public class RecordPresenter implements RecordContract.Presenter {
     }
 
     @Override
-    public void updateTrackPlayPauseState() {
+    public int updateTrackPlayState() {
+        return 0;
     }
 
     @Override
