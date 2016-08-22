@@ -28,8 +28,6 @@
             <Button
                 style="@style/AppTheme.Pajamas.RecordScreen.Stem.Options.Button"
                 android:id="@+id/view_record_stem_btn_record"
-                android:layout_marginEnd="@dimen/offset_s"
-                android:layout_marginStart="@dimen/offset_s"
                 android:text="@string/stem_record"/>
 
             <Button

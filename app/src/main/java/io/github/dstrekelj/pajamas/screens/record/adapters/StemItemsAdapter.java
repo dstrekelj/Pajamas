@@ -98,9 +98,9 @@ public class StemItemsAdapter extends RecyclerView.Adapter<StemItemsAdapter.Stem
     }
 
     public interface StemItemsAdapterListener {
-        void onStemRecord(StemModel stem, Button button);
-        void onStemPlay(StemModel stem, Button button);
-        void onStemRemove(StemModel stem, Button button);
+        void onStemRecord(StemModel stem, StemView stemView);
+        void onStemPlay(StemModel stem, StemView stemView);
+        void onStemRemove(StemModel stem, StemView stemView);
     }
 
     class StemViewHolder extends RecyclerView.ViewHolder {

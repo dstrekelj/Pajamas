@@ -20,6 +20,7 @@ import io.github.dstrekelj.pajamas.recorder.RecordingSession;
 import io.github.dstrekelj.pajamas.recorder.StemPlayer;
 import io.github.dstrekelj.pajamas.recorder.StemRecorder;
 import io.github.dstrekelj.pajamas.screens.record.adapters.StemItemsAdapter;
+import io.github.dstrekelj.pajamas.screens.record.views.StemView;
 
 public class RecordActivity extends AppCompatActivity implements RecordContract.View, StemItemsAdapter.StemItemsAdapterListener {
     public static final String TAG = "RecordActivity";
@@ -79,37 +80,19 @@ public class RecordActivity extends AppCompatActivity implements RecordContract.
     }
 
     @Override
-    public void onStemRecord(StemModel stem, Button button) {
+    public void onStemRecord(StemModel stem, StemView stemView) {
         int state = presenter.updateStemRecordState(stem);
-        switch (state) {
-            case RecordingSession.STEM_RECORDER_ACTIVE:
-                Log.d(TAG, "Stopping recording");
-                button.setText(R.string.stem_stop);
-                break;
-            case RecordingSession.STEM_RECORDER_STOPPED:
-                Log.d(TAG, "Starting recording");
-                button.setText(R.string.stem_record);
-                break;
-            default:
-        }
+        stemView.setStemRecordState(state);
     }
 
     @Override
-    public void onStemPlay(StemModel stem, Button button) {
+    public void onStemPlay(StemModel stem, StemView stemView) {
         int state = presenter.updateStemPlayState(stem);
-        switch (state) {
-            case RecordingSession.STEM_PLAYER_ACTIVE:
-                button.setText(R.string.stem_stop);
-                break;
-            case RecordingSession.STEM_PLAYER_STOPPED:
-                button.setText(R.string.stem_play);
-                break;
-            default:
-        }
+        stemView.setStemPlayState(state);
     }
 
     @Override
-    public void onStemRemove(StemModel stem, Button button) {
+    public void onStemRemove(StemModel stem, StemView stemView) {
         presenter.deleteStem(stem);
     }
 
@@ -139,8 +122,5 @@ public class RecordActivity extends AppCompatActivity implements RecordContract.
 
     @OnClick(R.id.component_record_track_btn_play_track) void onClickPlayTrack() {
         int state = presenter.updateTrackPlayState();
-        switch (state) {
-
-        }
     }
 }

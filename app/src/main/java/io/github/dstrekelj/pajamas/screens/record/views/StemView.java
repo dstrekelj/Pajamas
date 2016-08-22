@@ -14,6 +14,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.github.dstrekelj.pajamas.R;
 import io.github.dstrekelj.pajamas.models.StemModel;
+import io.github.dstrekelj.pajamas.recorder.RecordingSession;
 import io.github.dstrekelj.pajamas.screens.record.adapters.StemItemsAdapter;
 import io.github.dstrekelj.pajamas.screens.record.impl.StemTitleTextWatcher;
 
@@ -24,16 +25,19 @@ public class StemView extends CardView {
     public static final String TAG = "StemView";
 
     @BindView(R.id.view_record_stem_btn_play)
-    public Button btnPlay;
+    Button btnPlay;
     @BindView(R.id.view_record_stem_btn_record)
-    public Button btnRecord;
+    Button btnRecord;
     @BindView(R.id.view_record_stem_btn_remove)
-    public Button btnRemove;
+    Button btnRemove;
     @BindView(R.id.view_record_stem_et_stem_title)
-    public EditText etStemTitle;
+    EditText etStemTitle;
 
     private StemItemsAdapter.StemItemsAdapterListener stemItemsAdapterListener;
     private StemModel stem;
+
+    private int stemPlayState;
+    private int stemRecordState;
 
     public StemView(Context context) {
         super(context);
@@ -61,40 +65,53 @@ public class StemView extends CardView {
         etStemTitle.addTextChangedListener(new StemTitleTextWatcher(this.stem));
     }
 
-    public void enable() {
-        btnPlay.setClickable(true);
-        btnRecord.setClickable(true);
-        btnRemove.setClickable(true);
+    public void setStemPlayState(int stemPlayState) {
+        this.stemPlayState = stemPlayState;
+        switch (stemPlayState) {
+            case RecordingSession.STEM_PLAYER_ACTIVE:
+                btnPlay.setText(R.string.stem_stop);
+                break;
+            case RecordingSession.STEM_PLAYER_STOPPED:
+                btnPlay.setText(R.string.stem_play);
+                break;
+            default:
+        }
+    }
+
+    public void setStemRecordState(int stemRecordState) {
+        this.stemRecordState = stemRecordState;
+        switch (stemRecordState) {
+            case RecordingSession.STEM_RECORDER_ACTIVE:
+                btnRecord.setText(R.string.stem_stop);
+                break;
+            case RecordingSession.STEM_RECORDER_STOPPED:
+                btnRecord.setText(R.string.stem_record);
+                break;
+            default:
+        }
     }
 
     @OnClick(R.id.view_record_stem_btn_play) void onStemPlay() {
         if (isActive()) {
-            Log.d(TAG, "onStemPlay " + stem.getId());
-            stemItemsAdapterListener.onStemPlay(stem, btnPlay);
+            stemItemsAdapterListener.onStemPlay(stem, this);
         }
     }
 
     @OnClick(R.id.view_record_stem_btn_record) void onStemRecord() {
         if (isActive()) {
-            Log.d(TAG, "onStemRecord " + stem.getId());
-            stemItemsAdapterListener.onStemRecord(stem, btnRecord);
+            stemItemsAdapterListener.onStemRecord(stem, this);
         }
     }
 
     @OnClick(R.id.view_record_stem_btn_remove) void onStemRemove() {
         if (isActive()) {
-            Log.d(TAG, "onStemRemove " + stem.getId());
-            stemItemsAdapterListener.onStemRemove(stem, btnRemove);
+            stemItemsAdapterListener.onStemRemove(stem, this);
         }
     }
 
     private void initialize(Context context) {
         LayoutInflater.from(context).inflate(R.layout.view_record_stem, this);
         ButterKnife.bind(this);
-
-        /*btnPlay.setClickable(false);
-        btnRecord.setClickable(false);
-        btnRemove.setClickable(false);*/
     }
 
     private boolean isActive() {

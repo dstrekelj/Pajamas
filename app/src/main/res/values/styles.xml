@@ -37,7 +37,6 @@
     </style>
 
     <style name="AppTheme.Pajamas.RecordScreen.Stem.Options.Button" parent="AppTheme.Pajamas.Button">
-        <item name="android:background">@color/white</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
     </style>
