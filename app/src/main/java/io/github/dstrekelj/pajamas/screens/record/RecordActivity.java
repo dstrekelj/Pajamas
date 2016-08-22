@@ -5,6 +5,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -82,9 +83,11 @@ public class RecordActivity extends AppCompatActivity implements RecordContract.
         int state = presenter.updateStemRecordState(stem);
         switch (state) {
             case RecordingSession.STEM_RECORDER_ACTIVE:
+                Log.d(TAG, "Stopping recording");
                 button.setText(R.string.stem_stop);
                 break;
             case RecordingSession.STEM_RECORDER_STOPPED:
+                Log.d(TAG, "Starting recording");
                 button.setText(R.string.stem_record);
                 break;
             default:

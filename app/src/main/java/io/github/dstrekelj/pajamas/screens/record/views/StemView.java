@@ -15,6 +15,7 @@ import butterknife.OnClick;
 import io.github.dstrekelj.pajamas.R;
 import io.github.dstrekelj.pajamas.models.StemModel;
 import io.github.dstrekelj.pajamas.screens.record.adapters.StemItemsAdapter;
+import io.github.dstrekelj.pajamas.screens.record.impl.StemTitleTextWatcher;
 
 /**
  * TODO: Comment.
@@ -55,6 +56,9 @@ public class StemView extends CardView {
 
     public void setStem(StemModel stem) {
         this.stem = stem;
+
+        etStemTitle.setText(this.stem.getTitle());
+        etStemTitle.addTextChangedListener(new StemTitleTextWatcher(this.stem));
     }
 
     public void enable() {
@@ -64,33 +68,33 @@ public class StemView extends CardView {
     }
 
     @OnClick(R.id.view_record_stem_btn_play) void onStemPlay() {
-        Log.d(TAG, "onStemPlay");
-        /*if (isActive()) {
+        if (isActive()) {
+            Log.d(TAG, "onStemPlay " + stem.getId());
             stemItemsAdapterListener.onStemPlay(stem, btnPlay);
-        }*/
+        }
     }
 
     @OnClick(R.id.view_record_stem_btn_record) void onStemRecord() {
-        Log.d(TAG, "onStemRecord");
-        /*if (isActive()) {
+        if (isActive()) {
+            Log.d(TAG, "onStemRecord " + stem.getId());
             stemItemsAdapterListener.onStemRecord(stem, btnRecord);
-        }*/
+        }
     }
 
     @OnClick(R.id.view_record_stem_btn_remove) void onStemRemove() {
-        Log.d(TAG, "onStemRemove");
-        /*if (isActive()) {
+        if (isActive()) {
+            Log.d(TAG, "onStemRemove " + stem.getId());
             stemItemsAdapterListener.onStemRemove(stem, btnRemove);
-        }*/
+        }
     }
 
     private void initialize(Context context) {
         LayoutInflater.from(context).inflate(R.layout.view_record_stem, this);
         ButterKnife.bind(this);
 
-        btnPlay.setClickable(false);
+        /*btnPlay.setClickable(false);
         btnRecord.setClickable(false);
-        btnRemove.setClickable(false);
+        btnRemove.setClickable(false);*/
     }
 
     private boolean isActive() {

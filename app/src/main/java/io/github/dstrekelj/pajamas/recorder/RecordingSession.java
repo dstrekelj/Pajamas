@@ -83,6 +83,7 @@ public class RecordingSession {
     public int updateStemRecordState(StemModel stem) {
         if (isRecordingStem(stem)) {
             stemRecorder.stop();
+            stemRecorder = null;
             return STEM_RECORDER_STOPPED;
         } else {
             if (stemRecorder == null) {

@@ -88,8 +88,8 @@ public class StemItemsAdapter extends RecyclerView.Adapter<StemItemsAdapter.Stem
     @Override
     public void onBindViewHolder(StemViewHolder holder, int position) {
         StemModel item = items.get(position);
-        holder.stmvStem.etStemTitle.setText(item.getTitle());
-        holder.stmvStem.etStemTitle.addTextChangedListener(new StemTitleTextWatcher(item));
+        holder.stmvStem.setStem(item);
+        holder.stmvStem.setStemItemsAdapterListener(listener);
     }
 
     @Override
@@ -110,17 +110,6 @@ public class StemItemsAdapter extends RecyclerView.Adapter<StemItemsAdapter.Stem
         public StemViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-        }
-
-        @OnClick(R.id.item_record_stem_stmv_stem) void onClick() {
-            int position = getAdapterPosition();
-            Log.d(TAG, ""+position);
-            if (position != RecyclerView.NO_POSITION) {
-                Log.d(TAG, items.get(position) + ", " + listener);
-                stmvStem.setStem(items.get(position));
-                stmvStem.setStemItemsAdapterListener(listener);
-                stmvStem.enable();
-            }
         }
     }
 }
