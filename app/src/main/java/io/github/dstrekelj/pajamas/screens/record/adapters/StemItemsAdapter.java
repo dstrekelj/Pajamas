@@ -2,11 +2,11 @@ package io.github.dstrekelj.pajamas.screens.record.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +17,7 @@ import butterknife.OnClick;
 import io.github.dstrekelj.pajamas.R;
 import io.github.dstrekelj.pajamas.models.StemModel;
 import io.github.dstrekelj.pajamas.screens.record.impl.StemTitleTextWatcher;
+import io.github.dstrekelj.pajamas.screens.record.views.StemView;
 
 /**
  * TODO: Comment.
@@ -87,8 +88,8 @@ public class StemItemsAdapter extends RecyclerView.Adapter<StemItemsAdapter.Stem
     @Override
     public void onBindViewHolder(StemViewHolder holder, int position) {
         StemModel item = items.get(position);
-        holder.etStemTitle.setText(item.getTitle());
-        holder.etStemTitle.addTextChangedListener(new StemTitleTextWatcher(item));
+        holder.stmvStem.etStemTitle.setText(item.getTitle());
+        holder.stmvStem.etStemTitle.addTextChangedListener(new StemTitleTextWatcher(item));
     }
 
     @Override
@@ -103,38 +104,22 @@ public class StemItemsAdapter extends RecyclerView.Adapter<StemItemsAdapter.Stem
     }
 
     class StemViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.item_record_stem_et_stem_title)
-        EditText etStemTitle;
-        @BindView(R.id.item_record_stem_btn_play)
-        Button btnPlay;
-        @BindView(R.id.item_record_stem_btn_record)
-        Button btnRecord;
-        @BindView(R.id.item_record_stem_btn_remove)
-        Button btnRemove;
+        @BindView(R.id.item_record_stem_stmv_stem)
+        StemView stmvStem;
 
         public StemViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
-        @OnClick(R.id.item_record_stem_btn_play) void onStemPlayPause() {
+        @OnClick(R.id.item_record_stem_stmv_stem) void onClick() {
             int position = getAdapterPosition();
+            Log.d(TAG, ""+position);
             if (position != RecyclerView.NO_POSITION) {
-                listener.onStemPlay(items.get(position), btnPlay);
-            }
-        }
-
-        @OnClick(R.id.item_record_stem_btn_record) void onStemRecord() {
-            int position = getAdapterPosition();
-            if (position != RecyclerView.NO_POSITION) {
-                listener.onStemRecord(items.get(position), btnRecord);
-            }
-        }
-
-        @OnClick(R.id.item_record_stem_btn_remove) void onStemRemove() {
-            int position = getAdapterPosition();
-            if (position != RecyclerView.NO_POSITION) {
-                listener.onStemRemove(items.get(position), btnRemove);
+                Log.d(TAG, items.get(position) + ", " + listener);
+                stmvStem.setStem(items.get(position));
+                stmvStem.setStemItemsAdapterListener(listener);
+                stmvStem.enable();
             }
         }
     }
