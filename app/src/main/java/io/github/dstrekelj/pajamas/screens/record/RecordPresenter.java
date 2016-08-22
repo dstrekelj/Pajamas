@@ -18,15 +18,10 @@ public class RecordPresenter implements RecordContract.Presenter {
     private RecordContract.View view;
     private RecordingSession recordingSession;
 
-    private HashMap<Integer, StemPlayer> stemPlayerMap;
-    private HashMap<Integer, StemRecorder> stemRecorderMap;
-
     public RecordPresenter(RecordContract.View view) {
         this.view = view;
 
         recordingSession = new RecordingSession();
-        stemPlayerMap = new HashMap<>();
-        stemRecorderMap = new HashMap<>();
     }
 
     @Override
@@ -58,27 +53,18 @@ public class RecordPresenter implements RecordContract.Presenter {
     }
 
     @Override
-    public void updateStemPlayPauseState(StemModel stem) {
-        if (stemPlayerMap.containsKey(stem.getId())) {
-            stemPlayerMap.get(stem.getId()).stop();
-            stemPlayerMap.remove(stem.getId());
-        } else {
-            stemPlayerMap.put(stem.getId(), StemPlayerFactory.getStemPlayer(stem));
-        }
+    public int updateStemPlayState(StemModel stem) {
+        return recordingSession.updateStemPlayState(stem);
     }
 
     @Override
-    public void updateStemRecordState(StemModel stem) {
-        if (stemRecorderMap.containsKey(stem.getId())) {
-            stemRecorderMap.get(stem.getId()).stop();
-            stemRecorderMap.remove(stem.getId());
-        } else {
-            stemRecorderMap.put(stem.getId(), StemRecorderFactory.getStemRecorder(stem));
-        }
+    public int updateStemRecordState(StemModel stem) {
+        return recordingSession.updateStemRecordState(stem);
     }
 
     @Override
-    public void updateTrackPlayPauseState() {
+    public int updateTrackPlayState() {
+        return recordingSession.updateTrackPlayState();
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -15,7 +16,11 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import io.github.dstrekelj.pajamas.R;
 import io.github.dstrekelj.pajamas.models.StemModel;
+import io.github.dstrekelj.pajamas.recorder.RecordingSession;
+import io.github.dstrekelj.pajamas.recorder.StemPlayer;
+import io.github.dstrekelj.pajamas.recorder.StemRecorder;
 import io.github.dstrekelj.pajamas.screens.record.adapters.StemItemsAdapter;
+import io.github.dstrekelj.pajamas.screens.record.views.StemView;
 
 public class RecordActivity extends AppCompatActivity implements RecordContract.View, StemItemsAdapter.StemItemsAdapterListener {
     public static final String TAG = "RecordActivity";
@@ -75,17 +80,19 @@ public class RecordActivity extends AppCompatActivity implements RecordContract.
     }
 
     @Override
-    public void onStemRecord(StemModel stem) {
-        presenter.updateStemRecordState(stem);
+    public void onStemRecord(StemModel stem, StemView stemView) {
+        int state = presenter.updateStemRecordState(stem);
+        stemView.setStemRecordState(state);
     }
 
     @Override
-    public void onStemPlayPause(StemModel stem) {
-        presenter.updateStemPlayPauseState(stem);
+    public void onStemPlay(StemModel stem, StemView stemView) {
+        int state = presenter.updateStemPlayState(stem);
+        stemView.setStemPlayState(state);
     }
 
     @Override
-    public void onStemRemove(StemModel stem) {
+    public void onStemRemove(StemModel stem, StemView stemView) {
         presenter.deleteStem(stem);
     }
 
@@ -114,6 +121,6 @@ public class RecordActivity extends AppCompatActivity implements RecordContract.
     }
 
     @OnClick(R.id.component_record_track_btn_play_track) void onClickPlayTrack() {
-        presenter.updateTrackPlayPauseState();
+        int state = presenter.updateTrackPlayState();
     }
 }

@@ -2,6 +2,7 @@ package io.github.dstrekelj.pajamas.recorder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import io.github.dstrekelj.pajamas.models.StemModel;
 import io.github.dstrekelj.pajamas.models.TrackModel;
@@ -12,8 +13,21 @@ import io.github.dstrekelj.pajamas.models.TrackModel;
 public class RecordingSession {
     public static final String TAG = "RecordingSession";
 
+    public static final int STEM_PLAYER_ACTIVE = 0;
+    public static final int STEM_PLAYER_STOPPED = 1;
+
+    public static final int STEM_RECORDER_ACTIVE = 2;
+    public static final int STEM_RECORDER_BUSY = 3;
+    public static final int STEM_RECORDER_STOPPED = 4;
+
+    public static final int TRACK_PLAYER_ACTIVE = 5;
+    public static final int TRACK_PLAYER_STOPPED = 6;
+
+    private HashMap<Integer, StemPlayer> stemPlayers;
+    private StemRecorder stemRecorder;
     private TrackModel track;
 
+    private boolean isTrackPlaying;
     private int numberOfCreatedStems;
 
     public RecordingSession() {
@@ -22,6 +36,10 @@ public class RecordingSession {
         track.setStems(new ArrayList<StemModel>());
 
         numberOfCreatedStems = 0;
+
+        stemPlayers = new HashMap<>();
+
+        isTrackPlaying = false;
     }
 
     public void destroy() {
@@ -36,6 +54,10 @@ public class RecordingSession {
         track.setTitle(title);
     }
 
+    public List<StemModel> getTrackStems() {
+        return track.getStems();
+    }
+
     public StemModel createStem() {
         StemModel stem = new StemModel();
         stem.setTitle((numberOfCreatedStems == 0) ? "Untitled Stem" : "Untitled Stem #" + numberOfCreatedStems);
@@ -47,5 +69,51 @@ public class RecordingSession {
 
     public void deleteStem(StemModel stem) {
         track.getStems().remove(stem);
+    }
+
+    public int updateStemPlayState(StemModel stem) {
+        if (stem.getBuffer() == null) {
+            return STEM_PLAYER_STOPPED;
+        }
+        if (isPlayingStem(stem)) {
+            stemPlayers.get(stem.getId()).stop();
+            stemPlayers.remove(stem.getId());
+            return STEM_PLAYER_STOPPED;
+        } else {
+            stemPlayers.put(stem.getId(), StemPlayerFactory.getStemPlayer(stem));
+            return STEM_PLAYER_ACTIVE;
+        }
+    }
+
+    public int updateStemRecordState(StemModel stem) {
+        if (isRecordingStem(stem)) {
+            stemRecorder.stop();
+            stemRecorder = null;
+            updateTrackPlayState();
+            return STEM_RECORDER_STOPPED;
+        } else {
+            if (stemRecorder == null) {
+                stemRecorder = StemRecorderFactory.getStemRecorder(stem);
+                updateTrackPlayState();
+                return STEM_RECORDER_ACTIVE;
+            }
+        }
+        return STEM_RECORDER_BUSY;
+    }
+
+    public boolean isPlayingStem(StemModel stem) {
+        return stemPlayers.containsKey(stem.getId());
+    }
+
+    public boolean isRecordingStem(StemModel stem) {
+        return (stemRecorder != null) && (stemRecorder.getStem().getId() == stem.getId());
+    }
+
+    public int updateTrackPlayState() {
+        for (StemModel stem : track.getStems()) {
+            updateStemPlayState(stem);
+        }
+        isTrackPlaying = !isTrackPlaying;
+        return isTrackPlaying ? TRACK_PLAYER_ACTIVE : TRACK_PLAYER_STOPPED;
     }
 }

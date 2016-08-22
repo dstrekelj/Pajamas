@@ -2,11 +2,11 @@ package io.github.dstrekelj.pajamas.screens.record.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +17,7 @@ import butterknife.OnClick;
 import io.github.dstrekelj.pajamas.R;
 import io.github.dstrekelj.pajamas.models.StemModel;
 import io.github.dstrekelj.pajamas.screens.record.impl.StemTitleTextWatcher;
+import io.github.dstrekelj.pajamas.screens.record.views.StemView;
 
 /**
  * TODO: Comment.
@@ -87,8 +88,8 @@ public class StemItemsAdapter extends RecyclerView.Adapter<StemItemsAdapter.Stem
     @Override
     public void onBindViewHolder(StemViewHolder holder, int position) {
         StemModel item = items.get(position);
-        holder.etStemTitle.setText(item.getTitle());
-        holder.etStemTitle.addTextChangedListener(new StemTitleTextWatcher(item));
+        holder.stmvStem.setStem(item);
+        holder.stmvStem.setStemItemsAdapterListener(listener);
     }
 
     @Override
@@ -97,45 +98,18 @@ public class StemItemsAdapter extends RecyclerView.Adapter<StemItemsAdapter.Stem
     }
 
     public interface StemItemsAdapterListener {
-        void onStemRecord(StemModel stem);
-        void onStemPlayPause(StemModel stem);
-        void onStemRemove(StemModel stem);
+        void onStemRecord(StemModel stem, StemView stemView);
+        void onStemPlay(StemModel stem, StemView stemView);
+        void onStemRemove(StemModel stem, StemView stemView);
     }
 
     class StemViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.item_record_stem_et_stem_title)
-        EditText etStemTitle;
-        @BindView(R.id.item_record_stem_btn_play_pause)
-        Button ibPlayPause;
-        @BindView(R.id.item_record_stem_btn_record)
-        Button ibRecord;
-        @BindView(R.id.item_record_stem_btn_remove)
-        Button ibRemove;
+        @BindView(R.id.item_record_stem_stmv_stem)
+        StemView stmvStem;
 
         public StemViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-        }
-
-        @OnClick(R.id.item_record_stem_btn_play_pause) void onStemPlayPause() {
-            int position = getAdapterPosition();
-            if (position != RecyclerView.NO_POSITION) {
-                listener.onStemPlayPause(items.get(position));
-            }
-        }
-
-        @OnClick(R.id.item_record_stem_btn_record) void onStemRecord() {
-            int position = getAdapterPosition();
-            if (position != RecyclerView.NO_POSITION) {
-                listener.onStemRecord(items.get(position));
-            }
-        }
-
-        @OnClick(R.id.item_record_stem_btn_remove) void onStemRemove() {
-            int position = getAdapterPosition();
-            if (position != RecyclerView.NO_POSITION) {
-                listener.onStemRemove(items.get(position));
-            }
         }
     }
 }
