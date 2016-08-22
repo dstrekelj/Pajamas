@@ -75,9 +75,12 @@ public class RecordingSession {
             stemRecorder.stop();
             return StemRecorder.STATE_STOPPED;
         } else {
-            stemRecorder = StemRecorderFactory.getStemRecorder(stem);
-            return StemRecorder.STATE_RECORDING;
+            if (stemRecorder == null) {
+                stemRecorder = StemRecorderFactory.getStemRecorder(stem);
+                return StemRecorder.STATE_RECORDING;
+            }
         }
+        return StemRecorder.STATE_BUSY;
     }
 
     public boolean isPlayingStem(StemModel stem) {
