@@ -23,11 +23,11 @@ public class RecordingSession {
     public static final int TRACK_PLAYER_ACTIVE = 5;
     public static final int TRACK_PLAYER_STOPPED = 6;
 
-    private TrackModel track;
-
     private HashMap<Integer, StemPlayer> stemPlayers;
     private StemRecorder stemRecorder;
+    private TrackModel track;
 
+    private boolean isTrackPlaying;
     private int numberOfCreatedStems;
 
     public RecordingSession() {
@@ -38,6 +38,8 @@ public class RecordingSession {
         numberOfCreatedStems = 0;
 
         stemPlayers = new HashMap<>();
+
+        isTrackPlaying = false;
     }
 
     public void destroy() {
@@ -100,5 +102,13 @@ public class RecordingSession {
 
     public boolean isRecordingStem(StemModel stem) {
         return (stemRecorder != null) && (stemRecorder.getStem().getId() == stem.getId());
+    }
+
+    public int updateTrackPlayState() {
+        for (StemModel stem : track.getStems()) {
+            updateStemPlayState(stem);
+        }
+        isTrackPlaying = !isTrackPlaying;
+        return isTrackPlaying ? TRACK_PLAYER_ACTIVE : TRACK_PLAYER_STOPPED;
     }
 }
