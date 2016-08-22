@@ -92,7 +92,7 @@ public class StemView extends CardView {
     }
 
     @OnClick(R.id.view_record_stem_btn_play) void onStemPlay() {
-        if (isActive() && (stem.getBuffer() != null)) {
+        if (isActive()) {
             stemItemsAdapterListener.onStemPlay(stem, this);
         }
     }

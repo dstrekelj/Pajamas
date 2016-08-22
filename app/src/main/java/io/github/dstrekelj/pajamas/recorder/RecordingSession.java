@@ -72,6 +72,9 @@ public class RecordingSession {
     }
 
     public int updateStemPlayState(StemModel stem) {
+        if (stem.getBuffer() == null) {
+            return STEM_PLAYER_STOPPED;
+        }
         if (isPlayingStem(stem)) {
             stemPlayers.get(stem.getId()).stop();
             stemPlayers.remove(stem.getId());
@@ -86,10 +89,12 @@ public class RecordingSession {
         if (isRecordingStem(stem)) {
             stemRecorder.stop();
             stemRecorder = null;
+            updateTrackPlayState();
             return STEM_RECORDER_STOPPED;
         } else {
             if (stemRecorder == null) {
                 stemRecorder = StemRecorderFactory.getStemRecorder(stem);
+                updateTrackPlayState();
                 return STEM_RECORDER_ACTIVE;
             }
         }

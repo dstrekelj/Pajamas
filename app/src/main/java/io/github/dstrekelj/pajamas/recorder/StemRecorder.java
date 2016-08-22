@@ -32,7 +32,7 @@ public class StemRecorder extends PcmRecorderRunnable {
 
     @Override
     protected void onRecord(short[] buffer, int numberOfRecordedShorts, long numberOfTotalRecordedShorts) {
-        Log.d(TAG, "Recorded " + numberOfRecordedShorts + " samples (" + numberOfTotalRecordedShorts + " total) of stem " + stem.getTitle());
+//        Log.d(TAG, "Recorded " + numberOfRecordedShorts + " samples (" + numberOfTotalRecordedShorts + " total) of stem " + stem.getTitle());
         for (int i = 0; i < numberOfRecordedShorts; i++) {
             sampleBuffer.add(buffer[i]);
         }
