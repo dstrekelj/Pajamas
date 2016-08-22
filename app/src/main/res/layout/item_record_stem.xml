@@ -25,7 +25,7 @@
 
             <Button
                 style="@style/AppTheme.Pajamas.RecordScreen.Stem.Options.Button"
-                android:id="@+id/item_record_stem_btn_play_pause"
+                android:id="@+id/item_record_stem_btn_play"
                 android:text="@string/stem_play"/>
 
             <Button

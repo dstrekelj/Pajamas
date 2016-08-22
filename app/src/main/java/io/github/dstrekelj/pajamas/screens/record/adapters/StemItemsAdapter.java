@@ -97,44 +97,44 @@ public class StemItemsAdapter extends RecyclerView.Adapter<StemItemsAdapter.Stem
     }
 
     public interface StemItemsAdapterListener {
-        void onStemRecord(StemModel stem);
-        void onStemPlayPause(StemModel stem);
-        void onStemRemove(StemModel stem);
+        void onStemRecord(StemModel stem, Button button);
+        void onStemPlay(StemModel stem, Button button);
+        void onStemRemove(StemModel stem, Button button);
     }
 
     class StemViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.item_record_stem_et_stem_title)
         EditText etStemTitle;
-        @BindView(R.id.item_record_stem_btn_play_pause)
-        Button ibPlayPause;
+        @BindView(R.id.item_record_stem_btn_play)
+        Button btnPlay;
         @BindView(R.id.item_record_stem_btn_record)
-        Button ibRecord;
+        Button btnRecord;
         @BindView(R.id.item_record_stem_btn_remove)
-        Button ibRemove;
+        Button btnRemove;
 
         public StemViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
-        @OnClick(R.id.item_record_stem_btn_play_pause) void onStemPlayPause() {
+        @OnClick(R.id.item_record_stem_btn_play) void onStemPlayPause() {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
-                listener.onStemPlayPause(items.get(position));
+                listener.onStemPlay(items.get(position), btnPlay);
             }
         }
 
         @OnClick(R.id.item_record_stem_btn_record) void onStemRecord() {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
-                listener.onStemRecord(items.get(position));
+                listener.onStemRecord(items.get(position), btnRecord);
             }
         }
 
         @OnClick(R.id.item_record_stem_btn_remove) void onStemRemove() {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
-                listener.onStemRemove(items.get(position));
+                listener.onStemRemove(items.get(position), btnRemove);
             }
         }
     }

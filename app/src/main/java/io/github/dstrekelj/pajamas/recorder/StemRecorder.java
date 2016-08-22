@@ -15,6 +15,9 @@ import io.github.dstrekelj.toolkit.audio.PcmRecorderRunnable;
 public class StemRecorder extends PcmRecorderRunnable {
     public static final String TAG = "StemRecorder";
 
+    public static final int STATE_RECORDING = 0;
+    public static final int STATE_STOPPED = 1;
+
     private StemModel stem;
     private List<Short> sampleBuffer;
 

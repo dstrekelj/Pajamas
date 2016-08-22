@@ -1,5 +1,7 @@
 package io.github.dstrekelj.pajamas.screens.record;
 
+import android.widget.Button;
+
 import io.github.dstrekelj.pajamas.models.StemModel;
 import io.github.dstrekelj.pajamas.screens.common.BasePresenter;
 import io.github.dstrekelj.pajamas.screens.common.BaseView;
@@ -17,8 +19,8 @@ public interface RecordContract {
     interface Presenter extends BasePresenter {
         void createStem();
         void deleteStem(StemModel stem);
-        void updateStemPlayPauseState(StemModel stem);
-        void updateStemRecordState(StemModel stem);
+        int updateStemPlayState(StemModel stem);
+        int updateStemRecordState(StemModel stem);
         void updateTrackPlayPauseState();
         void finalizeTrack();
     }

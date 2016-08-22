@@ -15,6 +15,8 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import io.github.dstrekelj.pajamas.R;
 import io.github.dstrekelj.pajamas.models.StemModel;
+import io.github.dstrekelj.pajamas.recorder.StemPlayer;
+import io.github.dstrekelj.pajamas.recorder.StemRecorder;
 import io.github.dstrekelj.pajamas.screens.record.adapters.StemItemsAdapter;
 
 public class RecordActivity extends AppCompatActivity implements RecordContract.View, StemItemsAdapter.StemItemsAdapterListener {
@@ -75,17 +77,35 @@ public class RecordActivity extends AppCompatActivity implements RecordContract.
     }
 
     @Override
-    public void onStemRecord(StemModel stem) {
-        presenter.updateStemRecordState(stem);
+    public void onStemRecord(StemModel stem, Button button) {
+        int state = presenter.updateStemRecordState(stem);
+        switch (state) {
+            case StemRecorder.STATE_RECORDING:
+                button.setText(R.string.stem_stop);
+                break;
+            case StemRecorder.STATE_STOPPED:
+                button.setText(R.string.stem_record);
+                break;
+            default:
+        }
     }
 
     @Override
-    public void onStemPlayPause(StemModel stem) {
-        presenter.updateStemPlayPauseState(stem);
+    public void onStemPlay(StemModel stem, Button button) {
+        int state = presenter.updateStemPlayState(stem);
+        switch (state) {
+            case StemPlayer.STATE_PLAYING:
+                button.setText(R.string.stem_stop);
+                break;
+            case StemPlayer.STATE_STOPPED:
+                button.setText(R.string.stem_play);
+                break;
+            default:
+        }
     }
 
     @Override
-    public void onStemRemove(StemModel stem) {
+    public void onStemRemove(StemModel stem, Button button) {
         presenter.deleteStem(stem);
     }
 
