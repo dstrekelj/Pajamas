@@ -14,7 +14,7 @@ public class StemRecorderFactory {
     public static final int AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT;
     public static final int AUDIO_SOURCE = MediaRecorder.AudioSource.MIC;
     public static final int CHANNEL_CONFIGURATION = AudioFormat.CHANNEL_IN_MONO;
-    public static final int SAMPLE_RATE = 44100;
+    public static final int SAMPLE_RATE = 11025;
 
     public static StemRecorder getStemRecorder(StemModel stem) {
         StemRecorder stemRecorder = new StemRecorder(

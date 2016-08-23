@@ -39,7 +39,7 @@ public abstract class PcmPlayerRunnable implements Runnable {
     public void run() {
         isPlaying = true;
 
-        android.os.Process.setThreadPriority(Process.THREAD_PRIORITY_AUDIO);
+        android.os.Process.setThreadPriority(Process.THREAD_PRIORITY_URGENT_AUDIO);
 
         int minBufferSize = AudioTrack.getMinBufferSize(
                 sampleRate,

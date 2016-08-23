@@ -63,8 +63,6 @@ public class RecordingSession {
 
         stem.setTitle((numberOfCreatedStems == 0) ? "Untitled Stem" : "Untitled Stem #" + numberOfCreatedStems);
         stem.setId(numberOfCreatedStems);
-        stem.setNowPlaying(false);
-        stem.setNowRecording(false);
 
         track.getStems().add(stem);
 
