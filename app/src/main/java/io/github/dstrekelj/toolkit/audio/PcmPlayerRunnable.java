@@ -9,7 +9,7 @@ import java.nio.ShortBuffer;
 /**
  * TODO: Comment.
  */
-public abstract class PcmPlayerRunnable implements Runnable {
+public abstract class PcmPlayerRunnable implements Runnable, AudioTrack.OnPlaybackPositionUpdateListener {
     public static final String TAG = "PcmPlayerRunnable";
 
     private int audioFormat;
@@ -60,8 +60,13 @@ public abstract class PcmPlayerRunnable implements Runnable {
                 AudioTrack.MODE_STREAM
         );
 
-        audioTrack.play();
         ShortBuffer samples = onPlayerStart();
+
+        audioTrack.setPlaybackPositionUpdateListener(this);
+        audioTrack.setPositionNotificationPeriod(sampleRate / 30);
+        audioTrack.setNotificationMarkerPosition(samples.capacity());
+
+        audioTrack.play();
 
         short[] buffer = new short[minBufferSize];
         samples.rewind();
@@ -87,6 +92,17 @@ public abstract class PcmPlayerRunnable implements Runnable {
             audioTrack.release();
             onPlayerStop();
         }
+    }
+
+    @Override
+    public void onMarkerReached(AudioTrack audioTrack) {
+        audioTrack.release();
+        onPlayerStop();
+    }
+
+    @Override
+    public void onPeriodicNotification(AudioTrack audioTrack) {
+
     }
 
     protected abstract void onPlay();
