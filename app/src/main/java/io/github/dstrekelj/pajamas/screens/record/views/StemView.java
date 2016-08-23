@@ -36,9 +36,6 @@ public class StemView extends CardView {
     private StemItemsAdapter.StemItemsAdapterListener stemItemsAdapterListener;
     private StemModel stem;
 
-    private int stemPlayState;
-    private int stemRecordState;
-
     public StemView(Context context) {
         super(context);
         initialize(context);
@@ -66,7 +63,6 @@ public class StemView extends CardView {
     }
 
     public void setStemPlayState(int stemPlayState) {
-        this.stemPlayState = stemPlayState;
         switch (stemPlayState) {
             case RecordingSession.STEM_PLAYER_ACTIVE:
                 btnPlay.setText(R.string.stem_stop);
@@ -79,7 +75,6 @@ public class StemView extends CardView {
     }
 
     public void setStemRecordState(int stemRecordState) {
-        this.stemRecordState = stemRecordState;
         switch (stemRecordState) {
             case RecordingSession.STEM_RECORDER_ACTIVE:
                 btnRecord.setText(R.string.stem_stop);

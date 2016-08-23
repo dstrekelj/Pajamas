@@ -60,15 +60,27 @@ public class RecordingSession {
 
     public StemModel createStem() {
         StemModel stem = new StemModel();
+
         stem.setTitle((numberOfCreatedStems == 0) ? "Untitled Stem" : "Untitled Stem #" + numberOfCreatedStems);
         stem.setId(numberOfCreatedStems);
+        stem.setNowPlaying(false);
+        stem.setNowRecording(false);
+
         track.getStems().add(stem);
+
         numberOfCreatedStems += 1;
+
         return stem;
     }
 
     public void deleteStem(StemModel stem) {
         track.getStems().remove(stem);
+        if (stemRecorder.getStem().getId() == stem.getId()) {
+            stemRecorder = null;
+        }
+        if (stemPlayers.containsKey(stem.getId())) {
+            stemPlayers.remove(stem.getId());
+        }
     }
 
     public int updateStemPlayState(StemModel stem) {

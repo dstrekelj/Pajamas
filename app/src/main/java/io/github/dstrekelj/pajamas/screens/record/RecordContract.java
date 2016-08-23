@@ -5,6 +5,7 @@ import android.widget.Button;
 import io.github.dstrekelj.pajamas.models.StemModel;
 import io.github.dstrekelj.pajamas.screens.common.BasePresenter;
 import io.github.dstrekelj.pajamas.screens.common.BaseView;
+import io.github.dstrekelj.pajamas.screens.record.views.StemView;
 
 /**
  * TODO: Comment.
