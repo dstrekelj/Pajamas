@@ -5,7 +5,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -16,9 +15,6 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import io.github.dstrekelj.pajamas.R;
 import io.github.dstrekelj.pajamas.models.StemModel;
-import io.github.dstrekelj.pajamas.recorder.RecordingSession;
-import io.github.dstrekelj.pajamas.recorder.StemPlayer;
-import io.github.dstrekelj.pajamas.recorder.StemRecorder;
 import io.github.dstrekelj.pajamas.screens.record.adapters.StemItemsAdapter;
 import io.github.dstrekelj.pajamas.screens.record.views.StemView;
 
