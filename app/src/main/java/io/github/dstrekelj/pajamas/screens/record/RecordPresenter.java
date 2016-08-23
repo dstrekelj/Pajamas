@@ -1,13 +1,7 @@
 package io.github.dstrekelj.pajamas.screens.record;
 
-import java.util.HashMap;
-
 import io.github.dstrekelj.pajamas.models.StemModel;
 import io.github.dstrekelj.pajamas.recorder.RecordingSession;
-import io.github.dstrekelj.pajamas.recorder.StemPlayer;
-import io.github.dstrekelj.pajamas.recorder.StemPlayerFactory;
-import io.github.dstrekelj.pajamas.recorder.StemRecorder;
-import io.github.dstrekelj.pajamas.recorder.StemRecorderFactory;
 
 /**
  * TODO: Comment.

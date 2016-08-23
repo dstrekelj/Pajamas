@@ -2,9 +2,7 @@ package io.github.dstrekelj.pajamas.screens.record.views;
 
 import android.content.Context;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,9 +34,6 @@ public class StemView extends CardView {
     private StemItemsAdapter.StemItemsAdapterListener stemItemsAdapterListener;
     private StemModel stem;
 
-    private int stemPlayState;
-    private int stemRecordState;
-
     public StemView(Context context) {
         super(context);
         initialize(context);
@@ -61,31 +56,37 @@ public class StemView extends CardView {
     public void setStem(StemModel stem) {
         this.stem = stem;
 
+        if (stem.getBuffer() != null) {
+            btnPlay.setEnabled(true);
+        }
+
         etStemTitle.setText(this.stem.getTitle());
         etStemTitle.addTextChangedListener(new StemTitleTextWatcher(this.stem));
     }
 
-    public void setStemPlayState(int stemPlayState) {
-        this.stemPlayState = stemPlayState;
-        switch (stemPlayState) {
-            case RecordingSession.STEM_PLAYER_ACTIVE:
+    public void setStemPlayState(int recordingSessionState) {
+        switch (recordingSessionState) {
+            case RecordingSession.STATE_STEM_PLAYER_ACTIVE:
                 btnPlay.setText(R.string.stem_stop);
+                btnRecord.setEnabled(false);
                 break;
-            case RecordingSession.STEM_PLAYER_STOPPED:
+            case RecordingSession.STATE_STEM_PLAYER_STOPPED:
                 btnPlay.setText(R.string.stem_play);
+                btnRecord.setEnabled(true);
                 break;
             default:
         }
     }
 
-    public void setStemRecordState(int stemRecordState) {
-        this.stemRecordState = stemRecordState;
-        switch (stemRecordState) {
-            case RecordingSession.STEM_RECORDER_ACTIVE:
+    public void setStemRecordState(int recordingSessionState) {
+        switch (recordingSessionState) {
+            case RecordingSession.STATE_STEM_RECORDER_ACTIVE:
                 btnRecord.setText(R.string.stem_stop);
+                btnPlay.setEnabled(false);
                 break;
-            case RecordingSession.STEM_RECORDER_STOPPED:
+            case RecordingSession.STATE_STEM_RECORDER_STOPPED:
                 btnRecord.setText(R.string.stem_record);
+                btnPlay.setEnabled(true);
                 break;
             default:
         }
@@ -112,6 +113,8 @@ public class StemView extends CardView {
     private void initialize(Context context) {
         LayoutInflater.from(context).inflate(R.layout.view_record_stem, this);
         ButterKnife.bind(this);
+
+        btnPlay.setEnabled(false);
     }
 
     private boolean isActive() {

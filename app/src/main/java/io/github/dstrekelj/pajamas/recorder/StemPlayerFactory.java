@@ -13,7 +13,7 @@ public class StemPlayerFactory {
 
     public static final int AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT;
     public static final int CHANNEL_CONFIGURATION = AudioFormat.CHANNEL_OUT_MONO;
-    public static final int SAMPLE_RATE = 44100;
+    public static final int SAMPLE_RATE = 11025;
     public static final int STREAM_TYPE = AudioManager.STREAM_MUSIC;
 
     public static StemPlayer getStemPlayer(StemModel stem) {

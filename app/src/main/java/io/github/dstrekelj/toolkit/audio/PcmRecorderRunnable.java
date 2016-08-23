@@ -36,7 +36,7 @@ public abstract class PcmRecorderRunnable implements Runnable {
     public void run() {
         isRecording = true;
 
-        android.os.Process.setThreadPriority(Process.THREAD_PRIORITY_AUDIO);
+        android.os.Process.setThreadPriority(Process.THREAD_PRIORITY_URGENT_AUDIO);
 
         int minBufferSize = AudioRecord.getMinBufferSize(
                 sampleRate,
