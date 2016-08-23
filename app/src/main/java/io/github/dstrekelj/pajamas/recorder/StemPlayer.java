@@ -25,7 +25,6 @@ public class StemPlayer extends PcmPlayerRunnable {
 
     @Override
     protected void onPlay() {
-//        Log.d(TAG, "Playing stem " + stem.getTitle());
     }
 
     @Override
