@@ -63,5 +63,6 @@ public class RecordPresenter implements RecordContract.Presenter {
 
     @Override
     public void finalizeTrack() {
+        recordingSession.finalizeTrack();
     }
 }
