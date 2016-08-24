@@ -2,6 +2,7 @@ package io.github.dstrekelj.pajamas.recorder;
 
 import android.util.Log;
 
+import java.nio.ByteBuffer;
 import java.nio.ShortBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.List;
 
 import io.github.dstrekelj.pajamas.models.StemModel;
 import io.github.dstrekelj.pajamas.models.TrackModel;
+import io.github.dstrekelj.toolkit.audio.PcmToWav;
 
 /**
  * TODO: Comment.
@@ -138,7 +140,7 @@ public class RecordingSession {
         return isTrackPlaying ? STATE_TRACK_PLAYER_ACTIVE : STATE_TRACK_PLAYER_STOPPED;
     }
 
-    public void finalizeTrack() {
+    public byte[] finalizeTrack() {
         int maxCapacity = 0;
         for (StemModel s : track.getStems()) {
             if (s.getBuffer().capacity() > maxCapacity) {
@@ -170,6 +172,11 @@ public class RecordingSession {
 
         track.setBuffer(trackBuffer);
 
-        TrackPlayerFactory.getTrackPlayer(track);
+        //TrackPlayerFactory.getTrackPlayer(track);
+
+        ByteBuffer bb = ByteBuffer.allocate(trackBuffer.capacity() * 2);
+        bb.asShortBuffer().put(trackBuffer);
+
+        return PcmToWav.write(bb.array(), (byte)1, StemRecorderFactory.SAMPLE_RATE, (byte)16);
     }
 }
