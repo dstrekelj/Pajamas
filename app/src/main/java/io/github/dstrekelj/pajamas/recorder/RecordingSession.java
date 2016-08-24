@@ -1,11 +1,16 @@
 package io.github.dstrekelj.pajamas.recorder;
 
+import android.util.Log;
+
+import java.nio.ByteBuffer;
+import java.nio.ShortBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import io.github.dstrekelj.pajamas.models.StemModel;
 import io.github.dstrekelj.pajamas.models.TrackModel;
+import io.github.dstrekelj.toolkit.audio.PcmToWav;
 
 /**
  * TODO: Comment.
@@ -133,5 +138,46 @@ public class RecordingSession {
         }
         isTrackPlaying = !isTrackPlaying;
         return isTrackPlaying ? STATE_TRACK_PLAYER_ACTIVE : STATE_TRACK_PLAYER_STOPPED;
+    }
+
+    public byte[] finalizeTrack() {
+        int maxCapacity = 0;
+        for (StemModel s : track.getStems()) {
+            if (s.getBuffer().capacity() > maxCapacity) {
+                maxCapacity = s.getBuffer().capacity();
+            }
+        }
+        Log.d(TAG, "capacity: " + maxCapacity);
+        ShortBuffer trackBuffer = ShortBuffer.allocate(maxCapacity);
+        trackBuffer.rewind();
+        Log.d(TAG, "capacity: " + maxCapacity);
+        // http://stackoverflow.com/a/12090491/6633388
+        int sample;
+        while (trackBuffer.position() < maxCapacity) {
+            sample = 0;
+            for (StemModel s : track.getStems()) {
+                Log.d(TAG, "capacity: " + s.getBuffer().capacity());
+                if (trackBuffer.position() < s.getBuffer().capacity()) {
+                    sample += s.getBuffer().get(trackBuffer.position());
+                }
+            }
+            if (sample > Short.MAX_VALUE) {
+                sample = Short.MAX_VALUE;
+            }
+            if (sample < Short.MIN_VALUE) {
+                sample = Short.MIN_VALUE;
+            }
+            trackBuffer.put((short)sample);
+        }
+
+        track.setBuffer(trackBuffer);
+
+        TrackPlayerFactory.getTrackPlayer(track);
+        trackBuffer.rewind();
+
+        ByteBuffer bb = ByteBuffer.allocate(trackBuffer.capacity() * 2);
+        bb.asShortBuffer().put(trackBuffer);
+
+        return PcmToWav.write(bb.array(), (byte)1, StemRecorderFactory.SAMPLE_RATE, (byte)16);
     }
 }

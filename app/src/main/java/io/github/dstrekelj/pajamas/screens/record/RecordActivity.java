@@ -14,6 +14,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import io.github.dstrekelj.pajamas.R;
+import io.github.dstrekelj.pajamas.data.PajamasDataRepository;
 import io.github.dstrekelj.pajamas.models.StemModel;
 import io.github.dstrekelj.pajamas.screens.record.adapters.StemItemsAdapter;
 import io.github.dstrekelj.pajamas.screens.record.views.StemView;
@@ -50,7 +51,7 @@ public class RecordActivity extends AppCompatActivity implements RecordContract.
         rvStems.setAdapter(adapter);
         rvStems.setLayoutManager(new LinearLayoutManager(this));
 
-        presenter = new RecordPresenter(this);
+        presenter = new RecordPresenter(this, PajamasDataRepository.getInstance(this));
         presenter.start();
     }
 
