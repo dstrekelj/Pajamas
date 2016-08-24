@@ -172,7 +172,8 @@ public class RecordingSession {
 
         track.setBuffer(trackBuffer);
 
-        //TrackPlayerFactory.getTrackPlayer(track);
+        TrackPlayerFactory.getTrackPlayer(track);
+        trackBuffer.rewind();
 
         ByteBuffer bb = ByteBuffer.allocate(trackBuffer.capacity() * 2);
         bb.asShortBuffer().put(trackBuffer);

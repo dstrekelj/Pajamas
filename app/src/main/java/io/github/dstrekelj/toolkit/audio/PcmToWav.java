@@ -35,12 +35,16 @@ public class PcmToWav {
             wav.write(numChannels);                         // 2 B  Number of channels
             writeInt(wav, sampleRate);                      // 4 B  Sample rate
             writeInt(wav, sampleRate * bytesPerChannel);    // 4 B  Byte rate
-            writeShort(wav, (short)bytesPerChannel);               // 2 B  Block align
+            writeShort(wav, (short)bytesPerChannel);        // 2 B  Block align
             writeShort(wav, bitsPerSample);                 // 2 B  Bits per sample
             // "data" sub-chunk
             wav.write(subChunk2Id);                         // 4 B  Sub-chunk 2 ID
             writeInt(wav, subChunk2Size);                   // 4 B  Sub-chunk 2 size
-            wav.write(pcmData);                             // * B  Sound data
+            // Sound data
+            for (int i = 0; i < pcmData.length; i += 2) {
+                wav.write(pcmData[i + 1]);
+                wav.write(pcmData[i]);
+            }
             wav.close();
         } catch (IOException e) {
             e.printStackTrace();
