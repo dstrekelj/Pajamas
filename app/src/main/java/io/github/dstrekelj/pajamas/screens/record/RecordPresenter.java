@@ -65,6 +65,11 @@ public class RecordPresenter implements RecordContract.Presenter {
     }
 
     @Override
+    public void updateTrackTitle(String title) {
+        recordingSession.setTrackTitle(title);
+    }
+
+    @Override
     public void finalizeTrack() {
         byte[] data = recordingSession.finalizeTrack();
         repository.localDataSource.saveTrack(data, recordingSession.getTrackTitle());

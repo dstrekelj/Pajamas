@@ -20,6 +20,7 @@ public interface RecordContract {
         int updateStemPlayState(StemModel stem);
         int updateStemRecordState(StemModel stem);
         int updateTrackPlayState();
+        void updateTrackTitle(String title);
         void finalizeTrack();
     }
 }
