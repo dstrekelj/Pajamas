@@ -11,7 +11,7 @@ import java.nio.ByteBuffer;
 import java.nio.ShortBuffer;
 
 import io.github.dstrekelj.pajamas.models.TrackModel;
-import io.github.dstrekelj.pajamas.recorder.StemRecorderFactory;
+import io.github.dstrekelj.pajamas.recorder.AudioFactory;
 import io.github.dstrekelj.toolkit.audio.PcmToWav;
 
 /**
@@ -57,7 +57,7 @@ public class PajamasLocalDataSource implements IPajamasDataSource {
         ByteBuffer bb = ByteBuffer.allocate(trackBuffer.capacity() * 2);
         bb.asShortBuffer().put(trackBuffer);
 
-        byte[] data = PcmToWav.write(bb.array(), (byte)1, StemRecorderFactory.SAMPLE_RATE, (byte)16);
+        byte[] data = PcmToWav.write(bb.array(), (byte)1, AudioFactory.SAMPLE_RATE, (byte)16);
 
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(file);

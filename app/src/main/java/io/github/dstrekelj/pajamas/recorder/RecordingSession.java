@@ -26,12 +26,13 @@ public class RecordingSession {
     public static final int STATE_TRACK_PLAYER_ACTIVE = 5;
     public static final int STATE_TRACK_PLAYER_STOPPED = 6;
 
-    private HashMap<Integer, StemPlayer> stemPlayers;
-    private StemRecorder stemRecorder;
+    private HashMap<Integer, AudioPlayer> stemPlayers;
+    private AudioRecorder audioRecorder;
     private TrackModel track;
 
     private boolean isTrackPlaying;
     private int numberOfCreatedStems;
+    private int recordedStemId;
 
     public RecordingSession() {
         track = new TrackModel();
@@ -76,9 +77,6 @@ public class RecordingSession {
 
     public void deleteStem(StemModel stem) {
         track.getStems().remove(stem);
-        if (stemRecorder != null && stemRecorder.getStem().getId() == stem.getId()) {
-            stemRecorder = null;
-        }
         if (stemPlayers.containsKey(stem.getId())) {
             stemPlayers.remove(stem.getId());
         }
@@ -86,6 +84,7 @@ public class RecordingSession {
 
     public int updateStemPlayState(StemModel stem) {
         if (stem.getBuffer() == null) {
+            Log.d(TAG, "empty");
             return STATE_STEM_PLAYER_STOPPED;
         }
         if (isPlayingStem(stem)) {
@@ -93,15 +92,16 @@ public class RecordingSession {
             stemPlayers.remove(stem.getId());
             return STATE_STEM_PLAYER_STOPPED;
         } else {
-            stemPlayers.put(stem.getId(), StemPlayerFactory.getStemPlayer(stem));
+            stemPlayers.put(stem.getId(), AudioFactory.getAudioPlayer(stem));
             return STATE_STEM_PLAYER_ACTIVE;
         }
     }
 
     public int updateStemRecordState(StemModel stem) {
         if (isRecordingStem(stem)) {
-            stemRecorder.stop();
-            stemRecorder = null;
+            audioRecorder.stop();
+            audioRecorder = null;
+            recordedStemId = -1;
             for (StemModel s : track.getStems()) {
                 if (s.getId() != stem.getId()) {
                     updateStemPlayState(s);
@@ -109,8 +109,9 @@ public class RecordingSession {
             }
             return STATE_STEM_RECORDER_STOPPED;
         } else {
-            if (stemRecorder == null) {
-                stemRecorder = StemRecorderFactory.getStemRecorder(stem);
+            if (audioRecorder == null) {
+                audioRecorder = AudioFactory.getAudioRecorder(stem);
+                recordedStemId = stem.getId();
                 for (StemModel s : track.getStems()) {
                     if (s.getId() != stem.getId()) {
                         updateStemPlayState(s);
@@ -127,7 +128,7 @@ public class RecordingSession {
     }
 
     public boolean isRecordingStem(StemModel stem) {
-        return (stemRecorder != null) && (stemRecorder.getStem().getId() == stem.getId());
+        return (audioRecorder != null) && (recordedStemId == stem.getId());
     }
 
     public int updateTrackPlayState() {
@@ -169,8 +170,6 @@ public class RecordingSession {
         }
 
         track.setBuffer(trackBuffer);
-
-        //TrackPlayerFactory.getTrackPlayer(track);
 
         return track;
     }
