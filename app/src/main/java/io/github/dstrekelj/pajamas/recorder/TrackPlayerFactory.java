@@ -3,11 +3,10 @@ package io.github.dstrekelj.pajamas.recorder;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 
-import io.github.dstrekelj.pajamas.models.StemModel;
 import io.github.dstrekelj.pajamas.models.TrackModel;
 
 /**
- * TODO: Comment.
+ * A factory which creates pre-configured track players.
  */
 public class TrackPlayerFactory {
     public static final String TAG = "TrackPlayerFactory";

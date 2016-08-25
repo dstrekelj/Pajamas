@@ -4,7 +4,9 @@ import java.nio.ShortBuffer;
 import java.util.List;
 
 /**
- * TODO: Comment.
+ * A track is a collection of recorded audio stems. When a track is finalized, the stems are mixed
+ * together into the track's buffer. A track also defines a title, and a buffer of PCM audio data
+ * which is the result of mixing track stems.
  */
 public class TrackModel {
     private String title;

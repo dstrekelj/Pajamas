@@ -10,7 +10,7 @@ import io.github.dstrekelj.pajamas.models.StemModel;
 import io.github.dstrekelj.toolkit.audio.PcmRecorderRunnable;
 
 /**
- * TODO: Comment.
+ * An extension of the PCM recorder which records stems.
  */
 public class StemRecorder extends PcmRecorderRunnable {
     public static final String TAG = "StemRecorder";

@@ -16,7 +16,7 @@ import io.github.dstrekelj.pajamas.models.StemModel;
 import io.github.dstrekelj.pajamas.screens.record.views.StemView;
 
 /**
- * TODO: Comment.
+ * Adapter for track stem items in the Record screen stem list.
  */
 public class StemItemsAdapter extends RecyclerView.Adapter<StemItemsAdapter.StemViewHolder> {
     public static final String TAG = "StemItemsAdapter";
@@ -94,8 +94,8 @@ public class StemItemsAdapter extends RecyclerView.Adapter<StemItemsAdapter.Stem
     }
 
     public interface StemItemsAdapterListener {
-        void onStemRecord(StemModel stem, StemView stemView);
         void onStemPlay(StemModel stem, StemView stemView);
+        void onStemRecord(StemModel stem, StemView stemView);
         void onStemRemove(StemModel stem, StemView stemView);
     }
 

@@ -4,12 +4,11 @@ import android.util.Log;
 
 import java.nio.ShortBuffer;
 
-import io.github.dstrekelj.pajamas.models.StemModel;
 import io.github.dstrekelj.pajamas.models.TrackModel;
 import io.github.dstrekelj.toolkit.audio.PcmPlayerRunnable;
 
 /**
- * TODO: Comment.
+ * An extension of the PCM player which plays tracks.
  */
 public class TrackPlayer extends PcmPlayerRunnable {
     public static final String TAG = "TrackPlayer";

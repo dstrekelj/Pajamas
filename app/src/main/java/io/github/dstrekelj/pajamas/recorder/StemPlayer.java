@@ -8,7 +8,7 @@ import io.github.dstrekelj.pajamas.models.StemModel;
 import io.github.dstrekelj.toolkit.audio.PcmPlayerRunnable;
 
 /**
- * TODO: Comment.
+ * An extension of the PCM player which plays stems.
  */
 public class StemPlayer extends PcmPlayerRunnable {
     public static final String TAG = "StemPlayer";

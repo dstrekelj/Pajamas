@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Environment;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -13,11 +12,11 @@ import java.nio.ShortBuffer;
 
 import io.github.dstrekelj.pajamas.models.TrackModel;
 import io.github.dstrekelj.pajamas.recorder.StemRecorderFactory;
-import io.github.dstrekelj.pajamas.recorder.TrackPlayerFactory;
 import io.github.dstrekelj.toolkit.audio.PcmToWav;
 
 /**
- * TODO: Comment.
+ * The local data source writes data to the external storage directory, inside a folder named
+ * according to the application's package name.
  */
 public class PajamasLocalDataSource implements IPajamasDataSource {
     public static final String TAG = "PajamasLocalDataSource";
@@ -48,10 +47,6 @@ public class PajamasLocalDataSource implements IPajamasDataSource {
         return instance;
     }
 
-    private boolean isExternalStorageMediaMounted() {
-        return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
-    }
-
     @Override
     public void saveTrack(TrackModel track) {
         File file = new File(this.storageDirectory + File.separator + track.getTitle() + ".wav");
@@ -74,5 +69,13 @@ public class PajamasLocalDataSource implements IPajamasDataSource {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Performs a check to see if external storage media is mounted.
+     * @return  `true` if external storage media is mounted, `false` if not
+     */
+    private boolean isExternalStorageMediaMounted() {
+        return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
     }
 }

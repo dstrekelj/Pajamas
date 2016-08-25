@@ -7,7 +7,7 @@ import android.util.Log;
 import java.nio.ShortBuffer;
 
 /**
- * TODO: Comment.
+ * A `Runnable` which performs PCM audio playback.
  */
 public abstract class PcmPlayerRunnable implements Runnable, AudioTrack.OnPlaybackPositionUpdateListener {
     public static final String TAG = "PcmPlayerRunnable";

@@ -6,7 +6,7 @@ import io.github.dstrekelj.pajamas.models.TrackModel;
 import io.github.dstrekelj.pajamas.recorder.RecordingSession;
 
 /**
- * TODO: Comment.
+ * Record screen presenter, which handles the current recording session.
  */
 public class RecordPresenter implements RecordContract.Presenter {
     public static final String TAG = "RecordPresenter";

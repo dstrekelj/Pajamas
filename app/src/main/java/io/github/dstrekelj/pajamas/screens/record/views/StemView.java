@@ -17,7 +17,7 @@ import io.github.dstrekelj.pajamas.screens.record.adapters.StemItemsAdapter;
 import io.github.dstrekelj.pajamas.screens.record.impl.StemTitleTextWatcher;
 
 /**
- * TODO: Comment.
+ * Custom view for track stems.
  */
 public class StemView extends CardView {
     public static final String TAG = "StemView";

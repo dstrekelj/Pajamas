@@ -1,8 +1,12 @@
 package io.github.dstrekelj.pajamas.screens.common;
 
 /**
- * TODO: Comment.
+ * Base view interface.
  */
 public interface BaseView {
+    /**
+     * Displays toast.
+     * @param message    Toast message
+     */
     void displayToast(String message);
 }

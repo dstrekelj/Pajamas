@@ -6,7 +6,7 @@ import android.media.MediaRecorder;
 import io.github.dstrekelj.pajamas.models.StemModel;
 
 /**
- * TODO: Comment.
+ * A factory which creates pre-configured stem recorders.
  */
 public class StemRecorderFactory {
     public static final String TAG = "StemRecorderFactory";

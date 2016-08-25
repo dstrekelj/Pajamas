@@ -5,7 +5,7 @@ import android.os.Process;
 import android.util.Log;
 
 /**
- * TODO: Comment.
+ * A `Runnable` which performs PCM audio recording.
  */
 public abstract class PcmRecorderRunnable implements Runnable {
     public static final String TAG = "PcmRecorderRunnable";

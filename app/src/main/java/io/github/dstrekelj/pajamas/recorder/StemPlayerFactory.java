@@ -6,7 +6,7 @@ import android.media.AudioManager;
 import io.github.dstrekelj.pajamas.models.StemModel;
 
 /**
- * TODO: Comment.
+ * A factory which creates pre-configured stem players.
  */
 public class StemPlayerFactory {
     public static final String TAG = "StemPlayerFactory";
