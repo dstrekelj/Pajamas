@@ -6,7 +6,8 @@ import android.text.TextWatcher;
 import io.github.dstrekelj.pajamas.models.StemModel;
 
 /**
- * TODO: Comment.
+ * An implementation of `TextWatcher` that updates the track stem title when the `EditText` view
+ * text is changed.
  */
 public class StemTitleTextWatcher implements TextWatcher {
     private StemModel stem;

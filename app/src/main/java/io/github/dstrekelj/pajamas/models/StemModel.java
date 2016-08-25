@@ -3,19 +3,21 @@ package io.github.dstrekelj.pajamas.models;
 import java.nio.ShortBuffer;
 
 /**
- * TODO: Comment.
+ * A stem is an audio recording which will make up the final audio track. It has an ID unique to the
+ * session during which it was recorded, a title, and a buffer of recorded PCM audio data.
  */
-public class StemModel {
-    private int id;
+public class StemModel extends AudioModel {
     private String title;
-    private ShortBuffer buffer;
+    private int id;
 
-    public StemModel() {}
+    public StemModel() {
+        super();
+    }
 
-    public StemModel(int id, String title, ShortBuffer buffer) {
-        this.id = id;
+    public StemModel(ShortBuffer buffer, String title, int id) {
+        super(buffer);
         this.title = title;
-        this.buffer = buffer;
+        this.id = id;
     }
 
     public int getId() {
@@ -32,13 +34,5 @@ public class StemModel {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public ShortBuffer getBuffer() {
-        return buffer;
-    }
-
-    public void setBuffer(ShortBuffer buffer) {
-        this.buffer = buffer;
     }
 }

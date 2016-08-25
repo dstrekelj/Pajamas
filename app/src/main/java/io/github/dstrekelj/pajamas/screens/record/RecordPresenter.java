@@ -2,10 +2,11 @@ package io.github.dstrekelj.pajamas.screens.record;
 
 import io.github.dstrekelj.pajamas.data.PajamasDataRepository;
 import io.github.dstrekelj.pajamas.models.StemModel;
+import io.github.dstrekelj.pajamas.models.TrackModel;
 import io.github.dstrekelj.pajamas.recorder.RecordingSession;
 
 /**
- * TODO: Comment.
+ * Record screen presenter, which handles the current recording session.
  */
 public class RecordPresenter implements RecordContract.Presenter {
     public static final String TAG = "RecordPresenter";
@@ -71,7 +72,9 @@ public class RecordPresenter implements RecordContract.Presenter {
 
     @Override
     public void finalizeTrack() {
-        byte[] data = recordingSession.finalizeTrack();
-        repository.localDataSource.saveTrack(data, recordingSession.getTrackTitle());
+        TrackModel track = recordingSession.finalizeTrack();
+        view.displayToast("Done finalizing!");
+        repository.localDataSource.saveTrack(track);
+        view.displayToast("Track saved!");
     }
 }

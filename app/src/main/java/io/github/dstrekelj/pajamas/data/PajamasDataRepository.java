@@ -6,7 +6,8 @@ import io.github.dstrekelj.pajamas.data.sources.IPajamasDataSource;
 import io.github.dstrekelj.pajamas.data.sources.PajamasLocalDataSource;
 
 /**
- * TODO: Comment.
+ * The Pajamas data repository is an access point to various data sources available to the
+ * application.
  */
 public class PajamasDataRepository {
     public static final String TAG = "PajamasDataRepository";

@@ -4,10 +4,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 
 import io.github.dstrekelj.pajamas.screens.record.RecordContract;
-import io.github.dstrekelj.pajamas.screens.record.RecordPresenter;
 
 /**
- * TODO: Comment.
+ * An implementation of `TextWatcher` that updates the track title when the `EditText` view text is
+ * changed.
  */
 public class TrackTitleTextWatcher implements TextWatcher {
     private RecordContract.Presenter presenter;

@@ -5,7 +5,7 @@ import android.app.Application;
 import io.github.dstrekelj.pajamas.data.PajamasDataRepository;
 
 /**
- * TODO: Comment.
+ * Pajamas application entry point.
  */
 public class PajamasApplication extends Application {
     @Override

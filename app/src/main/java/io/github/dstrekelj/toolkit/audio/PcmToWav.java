@@ -4,7 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
- * TODO: Comment.
+ * Helper class for formatting PCM byte data to WAV byte data.
  */
 public class PcmToWav {
     // http://soundfile.sapp.org/doc/WaveFormat/

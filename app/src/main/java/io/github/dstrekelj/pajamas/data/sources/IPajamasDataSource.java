@@ -1,8 +1,14 @@
 package io.github.dstrekelj.pajamas.data.sources;
 
+import io.github.dstrekelj.pajamas.models.TrackModel;
+
 /**
- * TODO: Comment.
+ * Interface for storing and retrieving data from a Pajamas data source.
  */
 public interface IPajamasDataSource {
-    void saveTrack(byte[] data, String fileName);
+    /**
+     * Saves track to data source.
+     * @param track Track
+     */
+    void saveTrack(TrackModel track);
 }

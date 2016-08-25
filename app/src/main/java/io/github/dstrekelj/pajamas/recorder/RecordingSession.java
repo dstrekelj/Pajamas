@@ -2,7 +2,6 @@ package io.github.dstrekelj.pajamas.recorder;
 
 import android.util.Log;
 
-import java.nio.ByteBuffer;
 import java.nio.ShortBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,10 +9,9 @@ import java.util.List;
 
 import io.github.dstrekelj.pajamas.models.StemModel;
 import io.github.dstrekelj.pajamas.models.TrackModel;
-import io.github.dstrekelj.toolkit.audio.PcmToWav;
 
 /**
- * TODO: Comment.
+ * A recording session handles the current track and track stems, their recording, and playback.
  */
 public class RecordingSession {
     public static final String TAG = "RecordingSession";
@@ -28,12 +26,13 @@ public class RecordingSession {
     public static final int STATE_TRACK_PLAYER_ACTIVE = 5;
     public static final int STATE_TRACK_PLAYER_STOPPED = 6;
 
-    private HashMap<Integer, StemPlayer> stemPlayers;
-    private StemRecorder stemRecorder;
+    private HashMap<Integer, AudioPlayer> stemPlayers;
+    private AudioRecorder audioRecorder;
     private TrackModel track;
 
     private boolean isTrackPlaying;
     private int numberOfCreatedStems;
+    private int recordedStemId;
 
     public RecordingSession() {
         track = new TrackModel();
@@ -78,9 +77,6 @@ public class RecordingSession {
 
     public void deleteStem(StemModel stem) {
         track.getStems().remove(stem);
-        if (stemRecorder != null && stemRecorder.getStem().getId() == stem.getId()) {
-            stemRecorder = null;
-        }
         if (stemPlayers.containsKey(stem.getId())) {
             stemPlayers.remove(stem.getId());
         }
@@ -88,6 +84,7 @@ public class RecordingSession {
 
     public int updateStemPlayState(StemModel stem) {
         if (stem.getBuffer() == null) {
+            Log.d(TAG, "empty");
             return STATE_STEM_PLAYER_STOPPED;
         }
         if (isPlayingStem(stem)) {
@@ -95,15 +92,16 @@ public class RecordingSession {
             stemPlayers.remove(stem.getId());
             return STATE_STEM_PLAYER_STOPPED;
         } else {
-            stemPlayers.put(stem.getId(), StemPlayerFactory.getStemPlayer(stem));
+            stemPlayers.put(stem.getId(), AudioFactory.getAudioPlayer(stem));
             return STATE_STEM_PLAYER_ACTIVE;
         }
     }
 
     public int updateStemRecordState(StemModel stem) {
         if (isRecordingStem(stem)) {
-            stemRecorder.stop();
-            stemRecorder = null;
+            audioRecorder.stop();
+            audioRecorder = null;
+            recordedStemId = -1;
             for (StemModel s : track.getStems()) {
                 if (s.getId() != stem.getId()) {
                     updateStemPlayState(s);
@@ -111,8 +109,9 @@ public class RecordingSession {
             }
             return STATE_STEM_RECORDER_STOPPED;
         } else {
-            if (stemRecorder == null) {
-                stemRecorder = StemRecorderFactory.getStemRecorder(stem);
+            if (audioRecorder == null) {
+                audioRecorder = AudioFactory.getAudioRecorder(stem);
+                recordedStemId = stem.getId();
                 for (StemModel s : track.getStems()) {
                     if (s.getId() != stem.getId()) {
                         updateStemPlayState(s);
@@ -129,7 +128,7 @@ public class RecordingSession {
     }
 
     public boolean isRecordingStem(StemModel stem) {
-        return (stemRecorder != null) && (stemRecorder.getStem().getId() == stem.getId());
+        return (audioRecorder != null) && (recordedStemId == stem.getId());
     }
 
     public int updateTrackPlayState() {
@@ -140,23 +139,20 @@ public class RecordingSession {
         return isTrackPlaying ? STATE_TRACK_PLAYER_ACTIVE : STATE_TRACK_PLAYER_STOPPED;
     }
 
-    public byte[] finalizeTrack() {
+    public TrackModel finalizeTrack() {
         int maxCapacity = 0;
         for (StemModel s : track.getStems()) {
             if (s.getBuffer().capacity() > maxCapacity) {
                 maxCapacity = s.getBuffer().capacity();
             }
         }
-        Log.d(TAG, "capacity: " + maxCapacity);
         ShortBuffer trackBuffer = ShortBuffer.allocate(maxCapacity);
         trackBuffer.rewind();
-        Log.d(TAG, "capacity: " + maxCapacity);
         // http://stackoverflow.com/a/12090491/6633388
         int sample;
         while (trackBuffer.position() < maxCapacity) {
             sample = 0;
             for (StemModel s : track.getStems()) {
-                Log.d(TAG, "capacity: " + s.getBuffer().capacity());
                 if (trackBuffer.position() < s.getBuffer().capacity()) {
                     sample += s.getBuffer().get(trackBuffer.position());
                 }
@@ -172,12 +168,6 @@ public class RecordingSession {
 
         track.setBuffer(trackBuffer);
 
-        TrackPlayerFactory.getTrackPlayer(track);
-        trackBuffer.rewind();
-
-        ByteBuffer bb = ByteBuffer.allocate(trackBuffer.capacity() * 2);
-        bb.asShortBuffer().put(trackBuffer);
-
-        return PcmToWav.write(bb.array(), (byte)1, StemRecorderFactory.SAMPLE_RATE, (byte)16);
+        return track;
     }
 }

@@ -3,6 +3,7 @@ package io.github.dstrekelj.pajamas.screens.record.views;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,7 +18,7 @@ import io.github.dstrekelj.pajamas.screens.record.adapters.StemItemsAdapter;
 import io.github.dstrekelj.pajamas.screens.record.impl.StemTitleTextWatcher;
 
 /**
- * TODO: Comment.
+ * Custom view for track stems.
  */
 public class StemView extends CardView {
     public static final String TAG = "StemView";
@@ -76,6 +77,7 @@ public class StemView extends CardView {
                 break;
             default:
         }
+        Log.d(TAG, ""+recordingSessionState);
     }
 
     public void setStemRecordState(int recordingSessionState) {

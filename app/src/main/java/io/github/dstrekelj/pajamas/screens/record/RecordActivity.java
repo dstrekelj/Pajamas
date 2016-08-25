@@ -12,15 +12,19 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import io.github.dstrekelj.pajamas.R;
 import io.github.dstrekelj.pajamas.data.PajamasDataRepository;
 import io.github.dstrekelj.pajamas.models.StemModel;
 import io.github.dstrekelj.pajamas.screens.record.adapters.StemItemsAdapter;
+import io.github.dstrekelj.pajamas.screens.record.impl.StemItemsAdapterListenerImpl;
 import io.github.dstrekelj.pajamas.screens.record.impl.TrackTitleTextWatcher;
-import io.github.dstrekelj.pajamas.screens.record.views.StemView;
 
-public class RecordActivity extends AppCompatActivity implements RecordContract.View, StemItemsAdapter.StemItemsAdapterListener {
+/**
+ * The Record screen is where track recording occurs. A new recording session is initialised,
+ * marking the recording of a new track. Stems are added, recorded, played, and / or removed. The
+ * track can be played back and finalized into a WAV file on external storage media.
+ */
+public class RecordActivity extends AppCompatActivity implements RecordContract.View {
     public static final String TAG = "RecordActivity";
 
     @BindView(R.id.activity_record_fab_add_stem)
@@ -37,22 +41,20 @@ public class RecordActivity extends AppCompatActivity implements RecordContract.
 
     private RecordContract.Presenter presenter;
     private StemItemsAdapter adapter;
-    private Unbinder unbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record);
 
-        unbinder = ButterKnife.bind(this);
+        ButterKnife.bind(this);
 
         adapter = new StemItemsAdapter(this);
-        adapter.setListener(this);
+        presenter = new RecordPresenter(this, PajamasDataRepository.getInstance(this));
 
+        adapter.setListener(new StemItemsAdapterListenerImpl(this, presenter));
         rvStems.setAdapter(adapter);
         rvStems.setLayoutManager(new LinearLayoutManager(this));
-
-        presenter = new RecordPresenter(this, PajamasDataRepository.getInstance(this));
 
         etTrackTitle.addTextChangedListener(new TrackTitleTextWatcher(presenter));
 
@@ -66,11 +68,9 @@ public class RecordActivity extends AppCompatActivity implements RecordContract.
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unbinder.unbind();
         presenter.destroy();
 
         adapter = null;
-        unbinder = null;
         presenter = null;
     }
 
@@ -105,28 +105,6 @@ public class RecordActivity extends AppCompatActivity implements RecordContract.
         etTrackTitle.setText(title);
     }
 
-    /**
-     * Notifies the StemView of a change in stem recording state, so that the StemView can visually
-     * update according to the new state.
-     *
-     * @param stemView  Affected StemView
-     * @param state     Stem state, from RecordingSession
-     */
-    private void displayStemViewRecordState(StemView stemView, int state) {
-        stemView.setStemRecordState(state);
-    }
-
-    /**
-     * Notifies the StemView of a change in stem play state, so that the StemView can visually
-     * update according to the new state.
-     *
-     * @param stemView  Affected StemView
-     * @param state     Stem state, from RecordngSession
-     */
-    private void displayStemViewPlayState(StemView stemView, int state) {
-        stemView.setStemPlayState(state);
-    }
-
     /*
     * USER INTERACTION
     * */
@@ -141,22 +119,5 @@ public class RecordActivity extends AppCompatActivity implements RecordContract.
 
     @OnClick(R.id.component_record_track_btn_play_track) void onClickPlayTrack() {
         presenter.updateTrackPlayState();
-    }
-
-    @Override
-    public void onStemPlay(StemModel stem, StemView stemView) {
-        int state = presenter.updateStemPlayState(stem);
-        displayStemViewPlayState(stemView, state);
-    }
-
-    @Override
-    public void onStemRecord(StemModel stem, StemView stemView) {
-        int state = presenter.updateStemRecordState(stem);
-        displayStemViewRecordState(stemView, state);
-    }
-
-    @Override
-    public void onStemRemove(StemModel stem, StemView stemView) {
-        presenter.deleteStem(stem);
     }
 }
