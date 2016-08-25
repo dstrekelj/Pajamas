@@ -140,7 +140,7 @@ public class RecordingSession {
         return isTrackPlaying ? STATE_TRACK_PLAYER_ACTIVE : STATE_TRACK_PLAYER_STOPPED;
     }
 
-    public byte[] finalizeTrack() {
+    public TrackModel finalizeTrack() {
         int maxCapacity = 0;
         for (StemModel s : track.getStems()) {
             if (s.getBuffer().capacity() > maxCapacity) {
@@ -172,12 +172,8 @@ public class RecordingSession {
 
         track.setBuffer(trackBuffer);
 
-        TrackPlayerFactory.getTrackPlayer(track);
-        trackBuffer.rewind();
+        //TrackPlayerFactory.getTrackPlayer(track);
 
-        ByteBuffer bb = ByteBuffer.allocate(trackBuffer.capacity() * 2);
-        bb.asShortBuffer().put(trackBuffer);
-
-        return PcmToWav.write(bb.array(), (byte)1, StemRecorderFactory.SAMPLE_RATE, (byte)16);
+        return track;
     }
 }

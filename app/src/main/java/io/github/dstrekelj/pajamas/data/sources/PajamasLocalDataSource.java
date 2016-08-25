@@ -8,6 +8,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.ShortBuffer;
+
+import io.github.dstrekelj.pajamas.models.TrackModel;
+import io.github.dstrekelj.pajamas.recorder.StemRecorderFactory;
+import io.github.dstrekelj.pajamas.recorder.TrackPlayerFactory;
+import io.github.dstrekelj.toolkit.audio.PcmToWav;
 
 /**
  * TODO: Comment.
@@ -46,8 +53,17 @@ public class PajamasLocalDataSource implements IPajamasDataSource {
     }
 
     @Override
-    public void saveTrack(byte[] data, String fileName) {
-        File file = new File(this.storageDirectory + File.separator + fileName + ".wav");
+    public void saveTrack(TrackModel track) {
+        File file = new File(this.storageDirectory + File.separator + track.getTitle() + ".wav");
+
+        ShortBuffer trackBuffer = track.getBuffer();
+        trackBuffer.rewind();
+
+        ByteBuffer bb = ByteBuffer.allocate(trackBuffer.capacity() * 2);
+        bb.asShortBuffer().put(trackBuffer);
+
+        byte[] data = PcmToWav.write(bb.array(), (byte)1, StemRecorderFactory.SAMPLE_RATE, (byte)16);
+
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(file);
             fileOutputStream.write(data);

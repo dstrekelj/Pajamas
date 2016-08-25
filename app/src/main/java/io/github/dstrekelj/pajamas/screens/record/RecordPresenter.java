@@ -2,6 +2,7 @@ package io.github.dstrekelj.pajamas.screens.record;
 
 import io.github.dstrekelj.pajamas.data.PajamasDataRepository;
 import io.github.dstrekelj.pajamas.models.StemModel;
+import io.github.dstrekelj.pajamas.models.TrackModel;
 import io.github.dstrekelj.pajamas.recorder.RecordingSession;
 
 /**
@@ -71,7 +72,7 @@ public class RecordPresenter implements RecordContract.Presenter {
 
     @Override
     public void finalizeTrack() {
-        byte[] data = recordingSession.finalizeTrack();
-        repository.localDataSource.saveTrack(data, recordingSession.getTrackTitle());
+        TrackModel track = recordingSession.finalizeTrack();
+        repository.localDataSource.saveTrack(track);
     }
 }
