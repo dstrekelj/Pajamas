@@ -12,14 +12,12 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import io.github.dstrekelj.pajamas.R;
 import io.github.dstrekelj.pajamas.data.PajamasDataRepository;
 import io.github.dstrekelj.pajamas.models.StemModel;
 import io.github.dstrekelj.pajamas.screens.record.adapters.StemItemsAdapter;
 import io.github.dstrekelj.pajamas.screens.record.impl.StemItemsAdapterListenerImpl;
 import io.github.dstrekelj.pajamas.screens.record.impl.TrackTitleTextWatcher;
-import io.github.dstrekelj.pajamas.screens.record.views.StemView;
 
 /**
  * The Record screen is where track recording occurs. A new recording session is initialised,

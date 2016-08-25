@@ -4,12 +4,10 @@ import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.MediaRecorder;
 
-import java.nio.ShortBuffer;
-
 import io.github.dstrekelj.pajamas.models.AudioModel;
 
 /**
- * TODO: Comment.
+ * Creates pre-configured audio players and recorders.
  */
 public class AudioFactory {
     public static final int AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT;

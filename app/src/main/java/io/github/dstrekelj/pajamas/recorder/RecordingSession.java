@@ -11,7 +11,7 @@ import io.github.dstrekelj.pajamas.models.StemModel;
 import io.github.dstrekelj.pajamas.models.TrackModel;
 
 /**
- * TODO: Comment.
+ * A recording session handles the current track and track stems, their recording, and playback.
  */
 public class RecordingSession {
     public static final String TAG = "RecordingSession";
@@ -146,16 +146,13 @@ public class RecordingSession {
                 maxCapacity = s.getBuffer().capacity();
             }
         }
-        Log.d(TAG, "capacity: " + maxCapacity);
         ShortBuffer trackBuffer = ShortBuffer.allocate(maxCapacity);
         trackBuffer.rewind();
-        Log.d(TAG, "capacity: " + maxCapacity);
         // http://stackoverflow.com/a/12090491/6633388
         int sample;
         while (trackBuffer.position() < maxCapacity) {
             sample = 0;
             for (StemModel s : track.getStems()) {
-                Log.d(TAG, "capacity: " + s.getBuffer().capacity());
                 if (trackBuffer.position() < s.getBuffer().capacity()) {
                     sample += s.getBuffer().get(trackBuffer.position());
                 }

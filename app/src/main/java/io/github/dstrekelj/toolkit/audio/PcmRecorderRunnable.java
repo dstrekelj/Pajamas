@@ -48,6 +48,7 @@ public abstract class PcmRecorderRunnable implements Runnable {
             Log.d(TAG, "Unable to detect minimum buffer size");
             minBufferSize = sampleRate * 2;
         }
+        Log.d(TAG, "Min buffer size (B): " + minBufferSize);
 
         short[] buffer = new short[minBufferSize / 2];
 

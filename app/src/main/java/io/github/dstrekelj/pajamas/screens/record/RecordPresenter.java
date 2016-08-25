@@ -73,6 +73,8 @@ public class RecordPresenter implements RecordContract.Presenter {
     @Override
     public void finalizeTrack() {
         TrackModel track = recordingSession.finalizeTrack();
+        view.displayToast("Done finalizing!");
         repository.localDataSource.saveTrack(track);
+        view.displayToast("Track saved!");
     }
 }
