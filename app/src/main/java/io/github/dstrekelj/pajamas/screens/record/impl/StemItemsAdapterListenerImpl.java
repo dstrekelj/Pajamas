@@ -19,18 +19,19 @@ public class StemItemsAdapterListenerImpl implements StemItemsAdapter.StemItemsA
 
     @Override
     public void onStemRecord(StemModel stem, StemView stemView) {
-        int state = presenter.updateStemRecordState(stem);
+        int state = presenter.updateStemRecorderState(stem);
         stemView.setStemRecordState(state);
     }
 
     @Override
     public void onStemPlay(StemModel stem, StemView stemView) {
-        int state = presenter.updateStemPlayState(stem);
+        int state = presenter.updateStemPlayerState(stem);
         stemView.setStemPlayState(state);
     }
 
     @Override
     public void onStemRemove(StemModel stem, StemView stemView) {
         presenter.deleteStem(stem);
+        stemView.invalidate();
     }
 }

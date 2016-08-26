@@ -9,4 +9,10 @@ public interface BaseView {
      * @param message    Toast message
      */
     void displayToast(String message);
+
+    /**
+     * Displays toast.
+     * @param stringResourceId  String resource ID
+     */
+    void displayToast(int stringResourceId);
 }

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import io.github.dstrekelj.pajamas.models.AudioModel;
 import io.github.dstrekelj.pajamas.models.StemModel;
 import io.github.dstrekelj.pajamas.models.TrackModel;
 
@@ -16,12 +17,9 @@ import io.github.dstrekelj.pajamas.models.TrackModel;
 public class RecordingSession {
     public static final String TAG = "RecordingSession";
 
-    public static final int STATE_PLAYER_ACTIVE = 0;
-    public static final int STATE_PLAYER_STOPPED = 1;
-    public static final int STATE_PLAYER_UNAVAILABLE = 2;
-    public static final int STATE_RECORDER_ACTIVE = 3;
-    public static final int STATE_RECORDER_STOPPED = 4;
-    public static final int STATE_RECORDER_UNAVAILABLE = 5;
+    public static final int STATE_ACTIVE = 1;
+    public static final int STATE_INACTIVE = 2;
+    public static final int STATE_UNAVAILABLE = 3;
 
     private static final int ID_TRACK = -1;
 
@@ -30,6 +28,8 @@ public class RecordingSession {
     private TrackModel track;
 
     private final String defaultStemTitle;
+
+    private boolean isTrackDirty;
     private int numberOfCreatedStems;
 
     public RecordingSession(String defaultTrackTitle, String defaultStemTitle) {
@@ -41,6 +41,8 @@ public class RecordingSession {
         track.setTitle(defaultTrackTitle);
 
         this.defaultStemTitle = defaultStemTitle;
+
+        isTrackDirty = true;
         numberOfCreatedStems = 0;
     }
 
@@ -60,11 +62,13 @@ public class RecordingSession {
         track.setTitle(title);
     }
 
-    public List<StemModel> getTrackStems() {
-        return track.getStems();
+    public TrackModel getTrack() {
+        return track;
     }
 
     public StemModel addStem() {
+        isTrackDirty = true;
+
         StemModel stem = new StemModel();
         stem.setId(numberOfCreatedStems);
         stem.setTitle((numberOfCreatedStems == 0) ? defaultStemTitle : defaultStemTitle + " #" + numberOfCreatedStems);
@@ -77,6 +81,8 @@ public class RecordingSession {
     }
 
     public void removeStem(StemModel stem) {
+        isTrackDirty = true;
+
         track.getStems().remove(stem);
         if (audioPlayers.containsKey(stem.getId())) {
             audioPlayers.remove(stem.getId());
@@ -86,62 +92,19 @@ public class RecordingSession {
         }
     }
 
-    public int updateStemPlayState(StemModel stem) {
-        if (isPlayingStem(stem)) {
-            audioPlayers.remove(stem.getId()).stop();
-            return STATE_PLAYER_STOPPED;
-        }
-
-        if (stem.getBuffer() == null) {
-            return STATE_PLAYER_UNAVAILABLE;
-        }
-
-        audioPlayers.put(stem.getId(), AudioFactory.getAudioPlayer(stem));
-        return STATE_PLAYER_ACTIVE;
-    }
-
-    public int updateStemRecordState(StemModel stem) {
-        if (isRecordingStem(stem)) {
-            audioRecorders.remove(stem.getId()).stop();
-            updateTrackPlayState();
-            return STATE_RECORDER_STOPPED;
-        }
-
-        if (audioRecorders.size() != 0) {
-            return STATE_RECORDER_UNAVAILABLE;
-        }
-
-        finalizeTrack();
-        audioRecorders.put(stem.getId(), AudioFactory.getAudioRecorder(stem));
-        updateTrackPlayState();
-        return STATE_RECORDER_ACTIVE;
-    }
-
-    public int updateTrackPlayState() {
-        if (audioPlayers.containsKey(ID_TRACK)) {
-            Log.d(TAG, "updateTrackPlayState - STOPPED");
-            audioPlayers.remove(ID_TRACK).stop();
-            return STATE_PLAYER_STOPPED;
-        }
-
-        if (track.getBuffer() == null || audioPlayers.size() != 0) {
-            Log.d(TAG, "updateTrackPlayState - UNAVAILABLE");
-            return STATE_PLAYER_UNAVAILABLE;
-        }
-
-        Log.d(TAG, "updateTrackPlayState - ACTIVE");
-        audioPlayers.put(ID_TRACK, AudioFactory.getAudioPlayer(finalizeTrack()));
-        return STATE_PLAYER_ACTIVE;
-    }
-
     public TrackModel finalizeTrack() {
+        if (!isTrackDirty) {
+            Log.d(TAG, "No need to finalize");
+            return track;
+        }
+
         ShortBuffer stemBuffer;
 
         // The track buffer capacity is equal to the largest stem buffer capacity
         int trackBufferCapacity = 0;
-        for (StemModel s : track.getStems()) {
-            stemBuffer = s.getBuffer();
-            if (stemBuffer != null && stemBuffer.capacity() > trackBufferCapacity) {
+        for (StemModel stem : track.getStems()) {
+            stemBuffer = stem.getBuffer();
+            if (isAudioReady(stem) && stemBuffer.capacity() > trackBufferCapacity) {
                 trackBufferCapacity = stemBuffer.capacity();
             }
         }
@@ -156,7 +119,7 @@ public class RecordingSession {
             sample = 0;
             for (StemModel s : track.getStems()) {
                 stemBuffer = s.getBuffer();
-                if (stemBuffer != null && trackBuffer.position() < stemBuffer.capacity()) {
+                if (isAudioReady(s) && trackBuffer.position() < stemBuffer.capacity()) {
                     sample += stemBuffer.get(trackBuffer.position());
                 }
             }
@@ -166,14 +129,85 @@ public class RecordingSession {
 
         track.setBuffer(trackBuffer);
 
+        isTrackDirty = false;
+
         return track;
     }
 
-    private boolean isPlayingStem(StemModel stem) {
+    public int getStemPlayerState(StemModel stem) {
+        if (isPlayingStem(stem)) {
+            return STATE_ACTIVE;
+        }
+
+        if (isAudioReady(stem)) {
+            return STATE_INACTIVE;
+        }
+
+        return STATE_UNAVAILABLE;
+    }
+
+    public int getStemRecorderState(StemModel stem) {
+        if (isRecordingStem(stem)) {
+            return STATE_ACTIVE;
+        }
+
+        if (audioRecorders.size() == 0) {
+            return STATE_INACTIVE;
+        }
+
+        return STATE_UNAVAILABLE;
+    }
+
+    public int getTrackPlayerState() {
+        if (isPlayingTrack()) {
+            return STATE_ACTIVE;
+        }
+
+        if (isAudioReady(track)) {
+            return STATE_INACTIVE;
+        }
+
+        return STATE_UNAVAILABLE;
+    }
+
+    public boolean isAudioReady(AudioModel audio) {
+        return audio.getBuffer() != null;
+    }
+
+    public boolean isPlayingStem(StemModel stem) {
         return audioPlayers.containsKey(stem.getId());
     }
 
-    private boolean isRecordingStem(StemModel stem) {
+    public boolean isPlayingTrack() {
+        return audioPlayers.containsKey(ID_TRACK);
+    }
+
+    public boolean isRecordingStem(StemModel stem) {
         return audioRecorders.containsKey(stem.getId());
+    }
+
+    public void startStemPlayback(StemModel stem) {
+        audioPlayers.put(stem.getId(), AudioFactory.getAudioPlayer(stem));
+    }
+
+    public void startStemRecording(StemModel stem) {
+        isTrackDirty = true;
+        audioRecorders.put(stem.getId(), AudioFactory.getAudioRecorder(stem));
+    }
+
+    public void startTrackPlayback() {
+        audioPlayers.put(ID_TRACK, AudioFactory.getAudioPlayer(track));
+    }
+
+    public void stopStemPlayback(StemModel stem) {
+        audioPlayers.remove(stem.getId()).stop();
+    }
+
+    public void stopStemRecording(StemModel stem) {
+        audioRecorders.remove(stem.getId()).stop();
+    }
+
+    public void stopTrackPlayback() {
+        audioPlayers.remove(ID_TRACK).stop();
     }
 }
