@@ -21,8 +21,18 @@
         <item name="android:windowBackground">@drawable/bg_intro</item>
     </style>
 
+    <style name="AppTheme.Pajamas.HomeScreen" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.Pajamas.HomeScreen.Button" parent="AppTheme.Pajamas.Button">
+        <item name="android:layout_marginTop">@dimen/offset_m</item>
+    </style>
+
     <style name="AppTheme.Pajamas.RecordScreen" parent="AppTheme">
-        <item name="android:background">#123456</item>
     </style>
 
     <style name="AppTheme.Pajamas.RecordScreen.Stem" parent="Base.CardView">
