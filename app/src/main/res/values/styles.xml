@@ -17,6 +17,10 @@
         <item name="android:ellipsize">end</item>
     </style>
 
+    <style name="AppTheme.Pajamas.IntroScreen" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/bg_intro</item>
+    </style>
+
     <style name="AppTheme.Pajamas.RecordScreen" parent="AppTheme">
         <item name="android:background">#123456</item>
     </style>
