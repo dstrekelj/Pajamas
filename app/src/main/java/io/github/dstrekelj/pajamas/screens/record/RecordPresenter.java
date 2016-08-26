@@ -15,11 +15,11 @@ public class RecordPresenter implements RecordContract.Presenter {
     private RecordContract.View view;
     private RecordingSession recordingSession;
 
-    public RecordPresenter(RecordContract.View view, PajamasDataRepository repository) {
+    public RecordPresenter(RecordContract.View view, PajamasDataRepository repository, String defaultTrackTitle, String defaultStemTitle) {
         this.view = view;
         this.repository = repository;
 
-        recordingSession = new RecordingSession();
+        recordingSession = new RecordingSession(defaultTrackTitle, defaultStemTitle);
     }
 
     @Override
@@ -40,13 +40,13 @@ public class RecordPresenter implements RecordContract.Presenter {
 
     @Override
     public void createStem() {
-        StemModel stem = recordingSession.createStem();
+        StemModel stem = recordingSession.addStem();
         view.displayStemInsertion(stem);
     }
 
     @Override
     public void deleteStem(StemModel stem) {
-        recordingSession.deleteStem(stem);
+        recordingSession.removeStem(stem);
         view.displayStemRemoval(stem);
     }
 

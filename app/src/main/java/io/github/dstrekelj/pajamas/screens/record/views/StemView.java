@@ -67,11 +67,11 @@ public class StemView extends CardView {
 
     public void setStemPlayState(int recordingSessionState) {
         switch (recordingSessionState) {
-            case RecordingSession.STATE_STEM_PLAYER_ACTIVE:
+            case RecordingSession.STATE_PLAYER_ACTIVE:
                 btnPlay.setText(R.string.stem_stop);
                 btnRecord.setEnabled(false);
                 break;
-            case RecordingSession.STATE_STEM_PLAYER_STOPPED:
+            case RecordingSession.STATE_PLAYER_STOPPED:
                 btnPlay.setText(R.string.stem_play);
                 btnRecord.setEnabled(true);
                 break;
@@ -82,11 +82,11 @@ public class StemView extends CardView {
 
     public void setStemRecordState(int recordingSessionState) {
         switch (recordingSessionState) {
-            case RecordingSession.STATE_STEM_RECORDER_ACTIVE:
+            case RecordingSession.STATE_RECORDER_ACTIVE:
                 btnRecord.setText(R.string.stem_stop);
                 btnPlay.setEnabled(false);
                 break;
-            case RecordingSession.STATE_STEM_RECORDER_STOPPED:
+            case RecordingSession.STATE_RECORDER_STOPPED:
                 btnRecord.setText(R.string.stem_record);
                 btnPlay.setEnabled(true);
                 break;

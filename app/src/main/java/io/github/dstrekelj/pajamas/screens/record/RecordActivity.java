@@ -50,7 +50,12 @@ public class RecordActivity extends AppCompatActivity implements RecordContract.
         ButterKnife.bind(this);
 
         adapter = new StemItemsAdapter(this);
-        presenter = new RecordPresenter(this, PajamasDataRepository.getInstance(this));
+        presenter = new RecordPresenter(
+                this,
+                PajamasDataRepository.getInstance(this),
+                getResources().getString(R.string.default_track_title),
+                getResources().getString(R.string.default_stem_title)
+        );
 
         adapter.setListener(new StemItemsAdapterListenerImpl(this, presenter));
         rvStems.setAdapter(adapter);
