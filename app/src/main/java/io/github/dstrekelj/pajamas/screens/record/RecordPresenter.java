@@ -2,7 +2,6 @@ package io.github.dstrekelj.pajamas.screens.record;
 
 import io.github.dstrekelj.pajamas.data.PajamasDataRepository;
 import io.github.dstrekelj.pajamas.models.StemModel;
-import io.github.dstrekelj.pajamas.models.TrackModel;
 import io.github.dstrekelj.pajamas.recorder.RecordingSession;
 
 /**
@@ -15,11 +14,11 @@ public class RecordPresenter implements RecordContract.Presenter {
     private RecordContract.View view;
     private RecordingSession recordingSession;
 
-    public RecordPresenter(RecordContract.View view, PajamasDataRepository repository) {
+    public RecordPresenter(RecordContract.View view, PajamasDataRepository repository, String defaultTrackTitle, String defaultStemTitle) {
         this.view = view;
         this.repository = repository;
 
-        recordingSession = new RecordingSession();
+        recordingSession = new RecordingSession(defaultTrackTitle, defaultStemTitle);
     }
 
     @Override
@@ -40,29 +39,69 @@ public class RecordPresenter implements RecordContract.Presenter {
 
     @Override
     public void createStem() {
-        StemModel stem = recordingSession.createStem();
+        StemModel stem = recordingSession.addStem();
         view.displayStemInsertion(stem);
     }
 
     @Override
     public void deleteStem(StemModel stem) {
-        recordingSession.deleteStem(stem);
+        recordingSession.removeStem(stem);
         view.displayStemRemoval(stem);
     }
 
     @Override
-    public int updateStemPlayState(StemModel stem) {
-        return recordingSession.updateStemPlayState(stem);
+    public int updateStemPlayerState(StemModel stem) {
+        switch (recordingSession.getStemPlayerState(stem)) {
+            case RecordingSession.STATE_ACTIVE:
+                recordingSession.stopStemPlayback(stem);
+                break;
+            case RecordingSession.STATE_INACTIVE:
+                recordingSession.startStemPlayback(stem);
+                break;
+            case RecordingSession.STATE_UNAVAILABLE:
+                view.displayToast("The stem cannot be played.");
+                break;
+        }
+
+        return recordingSession.getStemPlayerState(stem);
     }
 
     @Override
-    public int updateStemRecordState(StemModel stem) {
-        return recordingSession.updateStemRecordState(stem);
+    public int updateStemRecorderState(StemModel stem) {
+        switch (recordingSession.getStemRecorderState(stem)) {
+            case RecordingSession.STATE_ACTIVE:
+                updateTrackPlayerState();
+                recordingSession.stopStemRecording(stem);
+                break;
+            case RecordingSession.STATE_INACTIVE:
+                requestTrackFinalization();
+                updateTrackPlayerState();
+                recordingSession.startStemRecording(stem);
+                break;
+            case RecordingSession.STATE_UNAVAILABLE:
+                view.displayToast("The stem cannot be recorded.");
+                break;
+        }
+
+        return recordingSession.getStemRecorderState(stem);
     }
 
     @Override
-    public int updateTrackPlayState() {
-        return recordingSession.updateTrackPlayState();
+    public int updateTrackPlayerState() {
+        switch (recordingSession.getTrackPlayerState()) {
+            case RecordingSession.STATE_ACTIVE:
+                recordingSession.stopTrackPlayback();
+                break;
+            case RecordingSession.STATE_INACTIVE:
+                requestTrackFinalization();
+                recordingSession.startTrackPlayback();
+                break;
+            case RecordingSession.STATE_UNAVAILABLE:
+                view.displayToast("The track cannot be played.");
+                break;
+        }
+
+        return recordingSession.getTrackPlayerState();
     }
 
     @Override
@@ -72,9 +111,14 @@ public class RecordPresenter implements RecordContract.Presenter {
 
     @Override
     public void finalizeTrack() {
-        TrackModel track = recordingSession.finalizeTrack();
-        view.displayToast("Done finalizing!");
-        repository.localDataSource.saveTrack(track);
+        requestTrackFinalization();
+        repository.localDataSource.saveTrack(recordingSession.getTrack());
         view.displayToast("Track saved!");
+    }
+
+    private void requestTrackFinalization() {
+        view.displayProgressDialog("Finalizing track...");
+        recordingSession.finalizeTrack();
+        view.dismissProgressDialog();
     }
 }

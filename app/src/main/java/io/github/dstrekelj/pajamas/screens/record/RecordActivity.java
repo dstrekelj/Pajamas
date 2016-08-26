@@ -1,5 +1,6 @@
 package io.github.dstrekelj.pajamas.screens.record;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -39,6 +40,7 @@ public class RecordActivity extends AppCompatActivity implements RecordContract.
     @BindView(R.id.component_record_track_et_track_title)
     EditText etTrackTitle;
 
+    private ProgressDialog progressDialog;
     private RecordContract.Presenter presenter;
     private StemItemsAdapter adapter;
 
@@ -50,7 +52,12 @@ public class RecordActivity extends AppCompatActivity implements RecordContract.
         ButterKnife.bind(this);
 
         adapter = new StemItemsAdapter(this);
-        presenter = new RecordPresenter(this, PajamasDataRepository.getInstance(this));
+        presenter = new RecordPresenter(
+                this,
+                PajamasDataRepository.getInstance(this),
+                getResources().getString(R.string.default_track_title),
+                getResources().getString(R.string.default_stem_title)
+        );
 
         adapter.setListener(new StemItemsAdapterListenerImpl(this, presenter));
         rvStems.setAdapter(adapter);
@@ -85,8 +92,15 @@ public class RecordActivity extends AppCompatActivity implements RecordContract.
     * */
 
     @Override
-    public void displayToast(String message) {
-        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    public void dismissProgressDialog() {
+        if (progressDialog != null) {
+            progressDialog.cancel();
+        }
+    }
+
+    @Override
+    public void displayProgressDialog(String text) {
+        progressDialog = ProgressDialog.show(this, "Please wait...", text);
     }
 
     @Override
@@ -98,6 +112,24 @@ public class RecordActivity extends AppCompatActivity implements RecordContract.
     @Override
     public void displayStemRemoval(StemModel stem) {
         adapter.removeItem(stem);
+    }
+
+    @Override
+    public void displayToast(String message) {
+        Toast.makeText(
+                getApplicationContext(),
+                message,
+                Toast.LENGTH_SHORT
+        ).show();
+    }
+
+    @Override
+    public void displayToast(int stringResourceId) {
+        Toast.makeText(
+                getApplicationContext(),
+                getResources().getString(stringResourceId),
+                Toast.LENGTH_SHORT
+        ).show();
     }
 
     @Override
@@ -118,6 +150,6 @@ public class RecordActivity extends AppCompatActivity implements RecordContract.
     }
 
     @OnClick(R.id.component_record_track_btn_play_track) void onClickPlayTrack() {
-        presenter.updateTrackPlayState();
+        presenter.updateTrackPlayerState();
     }
 }

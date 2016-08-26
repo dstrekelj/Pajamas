@@ -9,6 +9,9 @@ import io.github.dstrekelj.pajamas.screens.common.BaseView;
  */
 public interface RecordContract {
     interface View extends BaseView {
+        void dismissProgressDialog();
+        void displayProgressDialog(String text);
+
         /**
          * Performs and displays the insertion of a new stem into the list of track stems.
          * @param stem  Stem model
@@ -45,20 +48,20 @@ public interface RecordContract {
          * @param stem  Stem model
          * @return      Stem play state
          */
-        int updateStemPlayState(StemModel stem);
+        int updateStemPlayerState(StemModel stem);
 
         /**
          * Updates the record state of a track stem (recording / stopped).
          * @param stem  Stem model
          * @return      Stem record state
          */
-        int updateStemRecordState(StemModel stem);
+        int updateStemRecorderState(StemModel stem);
 
         /**
          * Updates the play state of the track (playing / stopped).
          * @return  Track play state
          */
-        int updateTrackPlayState();
+        int updateTrackPlayerState();
 
         /**
          * Updates track title.

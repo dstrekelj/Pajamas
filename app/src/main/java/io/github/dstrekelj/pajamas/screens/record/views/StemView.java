@@ -59,34 +59,35 @@ public class StemView extends CardView {
 
         if (stem.getBuffer() != null) {
             btnPlay.setEnabled(true);
+        } else {
+            btnPlay.setEnabled(false);
         }
 
         etStemTitle.setText(this.stem.getTitle());
         etStemTitle.addTextChangedListener(new StemTitleTextWatcher(this.stem));
     }
 
-    public void setStemPlayState(int recordingSessionState) {
-        switch (recordingSessionState) {
-            case RecordingSession.STATE_STEM_PLAYER_ACTIVE:
+    public void setStemPlayState(int stemPlayerState) {
+        switch (stemPlayerState) {
+            case RecordingSession.STATE_ACTIVE:
                 btnPlay.setText(R.string.stem_stop);
                 btnRecord.setEnabled(false);
                 break;
-            case RecordingSession.STATE_STEM_PLAYER_STOPPED:
+            case RecordingSession.STATE_INACTIVE:
                 btnPlay.setText(R.string.stem_play);
                 btnRecord.setEnabled(true);
                 break;
             default:
         }
-        Log.d(TAG, ""+recordingSessionState);
     }
 
-    public void setStemRecordState(int recordingSessionState) {
-        switch (recordingSessionState) {
-            case RecordingSession.STATE_STEM_RECORDER_ACTIVE:
+    public void setStemRecordState(int stemRecorderState) {
+        switch (stemRecorderState) {
+            case RecordingSession.STATE_ACTIVE:
                 btnRecord.setText(R.string.stem_stop);
                 btnPlay.setEnabled(false);
                 break;
-            case RecordingSession.STATE_STEM_RECORDER_STOPPED:
+            case RecordingSession.STATE_INACTIVE:
                 btnRecord.setText(R.string.stem_record);
                 btnPlay.setEnabled(true);
                 break;

@@ -10,4 +10,6 @@
     <string name="stem_remove">Remove</string>
     <string name="stem_stop">Stop</string>
     <string name="stem_title">Stem Title</string>
+    <string name="default_track_title">Untitled Track</string>
+    <string name="default_stem_title">Untitled Stem</string>
 </resources>
