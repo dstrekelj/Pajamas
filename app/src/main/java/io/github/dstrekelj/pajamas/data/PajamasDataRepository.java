@@ -13,11 +13,14 @@ public class PajamasDataRepository {
     public static final String TAG = "PajamasDataRepository";
 
     private static PajamasDataRepository instance = null;
+    private static String localStorageDirectoryPath = "";
 
     public IPajamasDataSource localDataSource;
 
     private PajamasDataRepository(Context context) {
-        localDataSource = PajamasLocalDataSource.getInstance(context);
+        PajamasLocalDataSource pajamasLocalDataSource = PajamasLocalDataSource.getInstance(context);
+        localStorageDirectoryPath = pajamasLocalDataSource.getStorageDirectoryPath();
+        localDataSource = pajamasLocalDataSource;
     }
 
     public static PajamasDataRepository getInstance(Context context) {
@@ -25,5 +28,9 @@ public class PajamasDataRepository {
             instance = new PajamasDataRepository(context.getApplicationContext());
         }
         return instance;
+    }
+
+    public static String getLocalStorageDirectoryPath() {
+        return localStorageDirectoryPath;
     }
 }

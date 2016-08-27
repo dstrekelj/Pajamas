@@ -47,6 +47,10 @@ public class PajamasLocalDataSource implements IPajamasDataSource {
         return instance;
     }
 
+    public String getStorageDirectoryPath() {
+        return storageDirectory.getAbsolutePath();
+    }
+
     @Override
     public void saveTrack(TrackModel track) {
         File file = new File(this.storageDirectory + File.separator + track.getTitle() + ".wav");

@@ -2,6 +2,8 @@ package io.github.dstrekelj.pajamas.screens.record;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -22,6 +24,7 @@ import io.github.dstrekelj.pajamas.R;
 import io.github.dstrekelj.pajamas.data.PajamasDataRepository;
 import io.github.dstrekelj.pajamas.models.StemModel;
 import io.github.dstrekelj.pajamas.recorder.RecordingSession;
+import io.github.dstrekelj.pajamas.screens.about.AboutActivity;
 import io.github.dstrekelj.pajamas.screens.record.adapters.StemItemsAdapter;
 import io.github.dstrekelj.pajamas.screens.record.impl.StemItemsAdapterListenerImpl;
 import io.github.dstrekelj.pajamas.screens.record.impl.TrackTitleTextWatcher;
@@ -84,7 +87,7 @@ public class RecordActivity extends AppCompatActivity implements RecordContract.
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_record_item_about:
-                Log.d(TAG, "about");
+                goToAboutScreen();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -177,6 +180,11 @@ public class RecordActivity extends AppCompatActivity implements RecordContract.
     @Override
     public void displayTrackTitle(String title) {
         etTrackTitle.setText(title);
+    }
+
+    @Override
+    public void goToAboutScreen() {
+        startActivity(new Intent(this, AboutActivity.class));
     }
 
     /*

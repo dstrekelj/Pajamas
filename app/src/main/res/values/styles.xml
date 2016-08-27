@@ -1,14 +1,11 @@
 <resources>
 
-    <!-- Base application theme. -->
+    <!-- APPLICATION THEME -->
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-    </style>
-
-    <style name="AppTheme.Pajamas.EditText" parent="Base.V12.Widget.AppCompat.EditText">
     </style>
 
     <style name="AppTheme.Pajamas.Button" parent="Base.Widget.AppCompat.Button">
@@ -17,20 +14,43 @@
         <item name="android:ellipsize">end</item>
     </style>
 
+    <style name="AppTheme.Pajamas.EditText" parent="Base.V12.Widget.AppCompat.EditText">
+    </style>
+
+    <!-- ABOUT SCREEN -->
+
+    <style name="AppTheme.Pajamas.AboutScreen" parent="AppTheme">
+    </style>
+
+    <style name="AppTheme.Pajamas.AboutScreen.TextView" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:lineSpacingMultiplier">1.5</item>
+    </style>
+
+    <style name="AppTheme.Pajamas.AboutScreen.TextView.H1" parent="AppTheme.Pajamas.AboutScreen.TextView">
+        <item name="android:textSize">@dimen/text_xl</item>
+        <item name="android:layout_marginBottom">@dimen/offset_s</item>
+    </style>
+
+    <style name="AppTheme.Pajamas.AboutScreen.TextView.H2" parent="AppTheme.Pajamas.AboutScreen.TextView">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">@dimen/text_l</item>
+        <item name="android:layout_marginTop">@dimen/offset_m</item>
+        <item name="android:layout_marginBottom">@dimen/offset_s</item>
+    </style>
+
+    <style name="AppTheme.Pajamas.AboutScreen.TextView.Body" parent="AppTheme.Pajamas.AboutScreen.TextView">
+        <item name="android:textSize">@dimen/text_m</item>
+        <item name="android:layout_marginBottom">@dimen/offset_s</item>
+    </style>
+
+    <!-- INTRO SCREEN -->
+
     <style name="AppTheme.Pajamas.IntroScreen" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/bg_intro</item>
     </style>
 
-    <style name="AppTheme.Pajamas.HomeScreen" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:background">@color/colorPrimary</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
-
-    <style name="AppTheme.Pajamas.HomeScreen.Button" parent="AppTheme.Pajamas.Button">
-        <item name="android:layout_marginTop">@dimen/offset_m</item>
-    </style>
+    <!-- RECORD SCREEN -->
 
     <style name="AppTheme.Pajamas.RecordScreen" parent="AppTheme">
     </style>

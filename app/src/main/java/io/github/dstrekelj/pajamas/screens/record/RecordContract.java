@@ -30,6 +30,8 @@ public interface RecordContract {
          * @param title Track title
          */
         void displayTrackTitle(String title);
+
+        void goToAboutScreen();
     }
 
     interface Presenter extends BasePresenter {
