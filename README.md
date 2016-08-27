@@ -1,4 +1,4 @@
-[![Stories in Ready](https://badge.waffle.io/dstrekelj/Pajamas.svg?label=ready&title=Ready)](http://waffle.io/dstrekelj/Pajamas)
+[![Stories in Ready](https://badge.waffle.io/dstrekelj/Pajamas.svg?label=ready&title=Ready)](http://waffle.io/dstrekelj/Pajamas) [![Stories in Progress](https://badge.waffle.io/dstrekelj/Pajamas.svg?label=in%20progress&title=In%20Progress)](http://waffle.io/dstrekelj/Pajamas)
 
 # Pajamas
 
