@@ -3,7 +3,7 @@ package io.github.dstrekelj.pajamas.models;
 import java.nio.ShortBuffer;
 
 /**
- * TODO: Comment.
+ * Base model for any form of audio data.
  */
 public class AudioModel {
     private ShortBuffer buffer;

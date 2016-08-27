@@ -182,6 +182,10 @@ public class RecordActivity extends AppCompatActivity implements RecordContract.
         etTrackTitle.setText(title);
     }
 
+    /*
+    * APPLICATION NAVIGATION
+    * */
+
     @Override
     public void goToAboutScreen() {
         startActivity(new Intent(this, AboutActivity.class));

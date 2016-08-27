@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import io.github.dstrekelj.pajamas.screens.record.RecordActivity;
 
 /**
- * TODO: Comment.
+ * The Intro screen serves only as a visual while the application is setting up from a cold start.
  */
 public class IntroActivity extends AppCompatActivity implements IntroContract.View {
     @Override

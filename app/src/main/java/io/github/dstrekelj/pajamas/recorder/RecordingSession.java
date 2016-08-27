@@ -65,6 +65,10 @@ public class RecordingSession {
         return track;
     }
 
+    /**
+     * Add track stem.
+     * @return  Stem
+     */
     public StemModel addStem() {
         isTrackDirty = true;
 
@@ -79,6 +83,10 @@ public class RecordingSession {
         return stem;
     }
 
+    /**
+     * Remove track stem.
+     * @param stem  Stem
+     */
     public void removeStem(StemModel stem) {
         isTrackDirty = true;
 
@@ -91,14 +99,28 @@ public class RecordingSession {
         }
     }
 
+    /**
+     * Finalize track by mixing all stems into one buffer.
+     * @return  Track
+     */
     public TrackModel finalizeTrack() {
         return mixStems(null);
     }
 
+    /**
+     * Request a preview of the track.
+     * @param recordedStem  The currently recorded stem that requires the preview during recording
+     * @return              Track
+     */
     public TrackModel previewTrack(StemModel recordedStem) {
         return mixStems(recordedStem);
     }
 
+    /**
+     * Mixes all recorded track stems into track audio buffer.
+     * @param recordedStem  The currently recorded stem that will be excluded from mixing
+     * @return              Track
+     */
     private TrackModel mixStems(StemModel recordedStem) {
         if (!isTrackDirty) {
             Log.d(TAG, "No need to finalize");
@@ -153,6 +175,13 @@ public class RecordingSession {
         return track;
     }
 
+    /**
+     * Determines the current stem player state.
+     * @param stem  Stem
+     * @return      STEM_ACTIVE         Stem is currently being played
+     *              STEM_INACTIVE       Stem is currently not being played
+     *              STEM_UNAVAILABLE    Stem audio is not ready
+     */
     public int getStemPlayerState(StemModel stem) {
         if (isPlayingStem(stem)) {
             return STATE_ACTIVE;
@@ -165,6 +194,13 @@ public class RecordingSession {
         return STATE_UNAVAILABLE;
     }
 
+    /**
+     * Determines the current stem recorder state.
+     * @param stem  Stem
+     * @return      STATE_ACTIVE        Stem is currently being recorded
+     *              STATE_INACTIVE      Stem is currently not being recorded
+     *              STATE_UNAVAILABLE   Stem recorder is busy
+     */
     public int getStemRecorderState(StemModel stem) {
         if (isRecordingStem(stem)) {
             return STATE_ACTIVE;
@@ -177,6 +213,12 @@ public class RecordingSession {
         return STATE_UNAVAILABLE;
     }
 
+    /**
+     * Determines the current track player state.
+     * @return  STATE_ACTIVE        Track is currently being played
+     *          STATE_INACTIVE      Track is currently not being played
+     *          STATE_UNAVAILABLE   Track audio is not ready
+     */
     public int getTrackPlayerState() {
         if (isPlayingTrack()) {
             return STATE_ACTIVE;
@@ -189,43 +231,84 @@ public class RecordingSession {
         return STATE_UNAVAILABLE;
     }
 
+    /**
+     * Checks if the audio data is ready.
+     * @param audio Audio
+     * @return      `true` if audio data buffer is not null
+     */
     public boolean isAudioReady(AudioModel audio) {
         return audio.getBuffer() != null;
     }
 
+    /**
+     * Checks if the stem is currently being played.
+     * @param stem  Stem
+     * @return      `true` if stem is currently being played
+     */
     public boolean isPlayingStem(StemModel stem) {
         return audioPlayers.containsKey(stem.getId());
     }
 
+    /**
+     * Checks if the track is currently being played.
+     * @return  `true` if track is being played
+     */
     public boolean isPlayingTrack() {
         return audioPlayers.containsKey(ID_TRACK);
     }
 
+    /**
+     * Checks if the stem is currently being recorded.
+     * @param stem  Stem
+     * @return      `true` if stem is being recorded
+     */
     public boolean isRecordingStem(StemModel stem) {
         return audioRecorders.containsKey(stem.getId());
     }
 
+    /**
+     * Starts the playback of a specific stem.
+     * @param stem  Stem
+     */
     public void startStemPlayback(StemModel stem) {
         audioPlayers.put(stem.getId(), AudioFactory.getAudioPlayer(stem));
     }
 
+    /**
+     * Starts the recording of a specific stem.
+     * @param stem  Stem
+     */
     public void startStemRecording(StemModel stem) {
         isTrackDirty = true;
         audioRecorders.put(stem.getId(), AudioFactory.getAudioRecorder(stem));
     }
 
+    /**
+     * Starts track playback.
+     */
     public void startTrackPlayback() {
         audioPlayers.put(ID_TRACK, AudioFactory.getAudioPlayer(track));
     }
 
+    /**
+     * Stops the playback of a specific stem.
+     * @param stem  Stem
+     */
     public void stopStemPlayback(StemModel stem) {
         audioPlayers.remove(stem.getId()).stop();
     }
 
+    /**
+     * Stops the recording of a specific stem.
+     * @param stem  Stem
+     */
     public void stopStemRecording(StemModel stem) {
         audioRecorders.remove(stem.getId()).stop();
     }
 
+    /**
+     * Stops track playback.
+     */
     public void stopTrackPlayback() {
         audioPlayers.remove(ID_TRACK).stop();
     }

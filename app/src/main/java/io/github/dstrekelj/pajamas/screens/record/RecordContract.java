@@ -9,8 +9,23 @@ import io.github.dstrekelj.pajamas.screens.common.BaseView;
  */
 public interface RecordContract {
     interface View extends BaseView {
+        /**
+         * Display alert dialog.
+         * @param titleResourceId   String resource ID for progress dialog title
+         * @param messageResourceId String resource ID for progress dialog message
+         */
         void displayAlertDialog(int titleResourceId, int messageResourceId);
+
+        /**
+         * Dismiss progress dialog.
+         */
         void dismissProgressDialog();
+
+        /**
+         * Display progress dialog.
+         * @param titleResourceId   String resource ID for progress dialog title
+         * @param messageResourceId String resource ID for progress dialog message
+         */
         void displayProgressDialog(int titleResourceId, int messageResourceId);
 
         /**
@@ -31,6 +46,9 @@ public interface RecordContract {
          */
         void displayTrackTitle(String title);
 
+        /**
+         * Navigate to About screen.
+         */
         void goToAboutScreen();
     }
 

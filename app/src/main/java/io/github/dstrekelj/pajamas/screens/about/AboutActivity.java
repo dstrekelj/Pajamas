@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import io.github.dstrekelj.pajamas.R;
 
 /**
- * TODO: Comment.
+ * The About screen displays information on the application and how to use it.
  */
 public class AboutActivity extends AppCompatActivity {
     public static final String TAG = "AboutActivity";

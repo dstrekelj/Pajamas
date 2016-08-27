@@ -35,7 +35,6 @@ public class RecordPresenter implements RecordContract.Presenter {
 
     @Override
     public void stop() {
-        // TODO: 21.8.2016. Stop currently active recording or playback
     }
 
     @Override

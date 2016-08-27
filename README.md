@@ -2,6 +2,8 @@
 
 # Pajamas
 
+<p align="center"><img src="shot08.png" width="200px"/></p>
+
 *Jam with yourself from the comfort of your own bedroom.*
 
 ## About

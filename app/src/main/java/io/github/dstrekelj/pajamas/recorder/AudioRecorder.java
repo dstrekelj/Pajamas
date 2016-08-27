@@ -28,14 +28,9 @@ public class AudioRecorder extends PcmRecorderRunnable {
 
     @Override
     protected void onRecord(short[] buffer, int numberOfRecordedShorts, long numberOfTotalRecordedShorts) {
-//        long startTime = System.nanoTime();
-
         for (int i = 0; i < numberOfRecordedShorts; i++) {
             tempBuffer.add(buffer[i]);
         }
-
-//        long endTime = System.nanoTime() - startTime;
-//        Log.d(TAG, "Duration: " + endTime);
     }
 
     @Override

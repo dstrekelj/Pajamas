@@ -19,6 +19,11 @@ public class AudioFactory {
     public static final int RECORDER_AUDIO_SOURCE = MediaRecorder.AudioSource.MIC;
     public static final int RECORDER_CHANNEL_CONFIGURATION = AudioFormat.CHANNEL_IN_MONO;
 
+    /**
+     * Creates, configures, and runs an audio player.
+     * @param audio Audio
+     * @return      The running audio player
+     */
     public static AudioPlayer getAudioPlayer(AudioModel audio) {
         AudioPlayer audioPlayer = new AudioPlayer(
                 AUDIO_FORMAT,
@@ -31,6 +36,11 @@ public class AudioFactory {
         return audioPlayer;
     }
 
+    /**
+     * Creates, configures, and runs an audio recorder.
+     * @param audio Audio
+     * @return      The running audio recorder
+     */
     public static AudioRecorder getAudioRecorder(AudioModel audio) {
         AudioRecorder audioRecorder = new AudioRecorder(
                 AUDIO_FORMAT,
