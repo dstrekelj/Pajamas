@@ -1,11 +1,16 @@
 package io.github.dstrekelj.pajamas.screens.record;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -16,6 +21,7 @@ import butterknife.OnClick;
 import io.github.dstrekelj.pajamas.R;
 import io.github.dstrekelj.pajamas.data.PajamasDataRepository;
 import io.github.dstrekelj.pajamas.models.StemModel;
+import io.github.dstrekelj.pajamas.recorder.RecordingSession;
 import io.github.dstrekelj.pajamas.screens.record.adapters.StemItemsAdapter;
 import io.github.dstrekelj.pajamas.screens.record.impl.StemItemsAdapterListenerImpl;
 import io.github.dstrekelj.pajamas.screens.record.impl.TrackTitleTextWatcher;
@@ -68,6 +74,23 @@ public class RecordActivity extends AppCompatActivity implements RecordContract.
         presenter.start();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_record, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_record_item_about:
+                Log.d(TAG, "about");
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     /*
     * LIFECYCLE METHODS
     * */
@@ -92,6 +115,21 @@ public class RecordActivity extends AppCompatActivity implements RecordContract.
     * */
 
     @Override
+    public void displayAlertDialog(int titleResourceId, int messageResourceId) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle(getResources().getString(titleResourceId));
+        alertDialogBuilder.setMessage(getResources().getString(messageResourceId));
+        alertDialogBuilder.setCancelable(true);
+        alertDialogBuilder.setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        alertDialogBuilder.create().show();
+    }
+
+    @Override
     public void dismissProgressDialog() {
         if (progressDialog != null) {
             progressDialog.cancel();
@@ -99,8 +137,12 @@ public class RecordActivity extends AppCompatActivity implements RecordContract.
     }
 
     @Override
-    public void displayProgressDialog(String text) {
-        progressDialog = ProgressDialog.show(this, "Please wait...", text);
+    public void displayProgressDialog(int titleResourceId, int messageResourceId) {
+        progressDialog = ProgressDialog.show(
+                this,
+                getResources().getString(titleResourceId),
+                getResources().getString(messageResourceId)
+        );
     }
 
     @Override
@@ -150,6 +192,17 @@ public class RecordActivity extends AppCompatActivity implements RecordContract.
     }
 
     @OnClick(R.id.component_record_track_btn_play_track) void onClickPlayTrack() {
-        presenter.updateTrackPlayerState();
+        int state = presenter.updateTrackPlayerState();
+        switch (state) {
+            case RecordingSession.STATE_ACTIVE:
+                btnPlayTrack.setText(R.string.stem_stop);
+                btnFinalizeTrack.setEnabled(false);
+                break;
+            case RecordingSession.STATE_INACTIVE:
+                btnPlayTrack.setText(R.string.stem_play);
+                btnFinalizeTrack.setEnabled(true);
+                break;
+            default:
+        }
     }
 }

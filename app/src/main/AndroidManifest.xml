@@ -22,18 +22,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".screens.home.HomeActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Pajamas.HomeScreen">
-        </activity>
         <activity android:name=".screens.record.RecordActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Pajamas.RecordScreen"
-            android:parentActivityName=".screens.home.HomeActivity">
-
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".screens.home.HomeActivity"/>
+            android:theme="@style/AppTheme.Pajamas.RecordScreen">
         </activity>
     </application>
 

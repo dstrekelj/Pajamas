@@ -5,6 +5,6 @@ package io.github.dstrekelj.pajamas.screens.intro;
  */
 public interface IntroContract {
     interface View {
-        void goToHomeScreen();
+        void goToRecordScreen();
     }
 }
