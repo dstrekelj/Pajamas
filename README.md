@@ -1,3 +1,5 @@
+[![Stories in Ready](https://badge.waffle.io/dstrekelj/Pajamas.svg?label=ready&title=Ready)](http://waffle.io/dstrekelj/Pajamas)
+
 # Pajamas
 
 *Jam with yourself from the comfort of your own bedroom.*
