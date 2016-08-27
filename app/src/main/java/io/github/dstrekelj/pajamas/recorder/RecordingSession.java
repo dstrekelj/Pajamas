@@ -92,6 +92,14 @@ public class RecordingSession {
     }
 
     public TrackModel finalizeTrack() {
+        return mixStems(null);
+    }
+
+    public TrackModel previewTrack(StemModel recordedStem) {
+        return mixStems(recordedStem);
+    }
+
+    private TrackModel mixStems(StemModel recordedStem) {
         if (!isTrackDirty) {
             Log.d(TAG, "No need to finalize");
             return track;
@@ -110,6 +118,9 @@ public class RecordingSession {
         for (StemModel stem : track.getStems()) {
             stemBuffer = stem.getBuffer();
             if (isAudioReady(stem) && stemBuffer.capacity() > trackBufferCapacity) {
+                if (recordedStem != null && recordedStem.getId() == stem.getId()) {
+                    continue;
+                }
                 trackBufferCapacity = stemBuffer.capacity();
             }
         }
@@ -122,9 +133,12 @@ public class RecordingSession {
         int sample;
         while (trackBuffer.position() < trackBufferCapacity) {
             sample = 0;
-            for (StemModel s : track.getStems()) {
-                stemBuffer = s.getBuffer();
-                if (isAudioReady(s) && trackBuffer.position() < stemBuffer.capacity()) {
+            for (StemModel stem : track.getStems()) {
+                stemBuffer = stem.getBuffer();
+                if (isAudioReady(stem) && !isRecordingStem(stem) && trackBuffer.position() < stemBuffer.capacity()) {
+                    if (recordedStem != null && recordedStem.getId() == stem.getId()) {
+                        continue;
+                    }
                     sample += stemBuffer.get(trackBuffer.position());
                 }
             }

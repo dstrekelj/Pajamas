@@ -75,7 +75,9 @@ public class RecordPresenter implements RecordContract.Presenter {
                 recordingSession.stopStemRecording(stem);
                 break;
             case RecordingSession.STATE_INACTIVE:
-                requestTrackFinalization();
+                view.displayProgressDialog(R.string.dialog_title_please_wait, R.string.finalization_in_progress);
+                recordingSession.previewTrack(stem);
+                view.dismissProgressDialog();
                 updateTrackPlayerState();
                 recordingSession.startStemRecording(stem);
                 break;
@@ -94,7 +96,9 @@ public class RecordPresenter implements RecordContract.Presenter {
                 recordingSession.stopTrackPlayback();
                 break;
             case RecordingSession.STATE_INACTIVE:
-                requestTrackFinalization();
+                view.displayProgressDialog(R.string.dialog_title_please_wait, R.string.finalization_in_progress);
+                recordingSession.finalizeTrack();
+                view.dismissProgressDialog();
                 if (recordingSession.isAudioReady(recordingSession.getTrack())) {
                     recordingSession.startTrackPlayback();
                     break;
@@ -114,14 +118,10 @@ public class RecordPresenter implements RecordContract.Presenter {
 
     @Override
     public void finalizeTrack() {
-        requestTrackFinalization();
-        repository.localDataSource.saveTrack(recordingSession.getTrack());
-        view.displayAlertDialog(R.string.dialog_title_success, R.string.finalization_successful);
-    }
-
-    private void requestTrackFinalization() {
         view.displayProgressDialog(R.string.dialog_title_please_wait, R.string.finalization_in_progress);
         recordingSession.finalizeTrack();
         view.dismissProgressDialog();
+        repository.localDataSource.saveTrack(recordingSession.getTrack());
+        view.displayAlertDialog(R.string.dialog_title_success, R.string.finalization_successful);
     }
 }
