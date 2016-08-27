@@ -5,6 +5,16 @@
     <string name="dialog_title_please_wait">Please wait...</string>
     <string name="dialog_title_success">Success!</string>
     <string name="dialog_title_failure">Failure!</string>
+    <string name="error_local_storage">Could not locate local storage directory. External storage media might not be available.</string>
+    <string name="error_no_supported_application">Could not find a suitable application for selected action.</string>
+    <string name="dialog_title_chooser">Please choose</string>
+
+    <!-- ABOUT SCREEN -->
+    <string name="about_heading">About Pajamas</string>
+    <string name="about_subheading_what_is">What is Pajamas?</string>
+    <string name="about_body_what_is">Pajamas intends to make the recording of track demos easier. Record track stems, preview the track, and finalize it in the form of a WAV audio file.</string>
+    <string name="about_subheading_how_to">How do I use Pajamas?</string>
+    <string name="about_body_how_to">A track is made up of several track stems. A track stem is a single instance of recorded audio. New track stems are created with the floating action button. Stems can be recorded, played back, and removed. Recording a track stem plays all recorded stems to provide a frame of reference. Once the recorded stems are satisfactory, the track can be finalized. The finalized track is available in WAV format in the application\'s data directory on the device\'s external storage media.</string>
 
     <!-- RECORD SCREEN -->
     <string name="track_title">Track Title</string>

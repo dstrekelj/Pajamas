@@ -13,6 +13,11 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".screens.about.AboutActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Pajamas.AboutScreen"
+            android:parentActivityName=".screens.record.RecordActivity">
+        </activity>
         <activity android:name=".screens.intro.IntroActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Pajamas.IntroScreen">
