@@ -5,7 +5,6 @@ import android.util.Log;
 import java.nio.ShortBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import io.github.dstrekelj.pajamas.models.AudioModel;
 import io.github.dstrekelj.pajamas.models.StemModel;
@@ -95,6 +94,12 @@ public class RecordingSession {
     public TrackModel finalizeTrack() {
         if (!isTrackDirty) {
             Log.d(TAG, "No need to finalize");
+            return track;
+        }
+
+        if (track.getStems().isEmpty()) {
+            Log.d(TAG, "Empty stems");
+            track.setBuffer(null);
             return track;
         }
 

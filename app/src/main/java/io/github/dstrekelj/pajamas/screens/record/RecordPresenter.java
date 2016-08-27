@@ -1,5 +1,6 @@
 package io.github.dstrekelj.pajamas.screens.record;
 
+import io.github.dstrekelj.pajamas.R;
 import io.github.dstrekelj.pajamas.data.PajamasDataRepository;
 import io.github.dstrekelj.pajamas.models.StemModel;
 import io.github.dstrekelj.pajamas.recorder.RecordingSession;
@@ -59,7 +60,7 @@ public class RecordPresenter implements RecordContract.Presenter {
                 recordingSession.startStemPlayback(stem);
                 break;
             case RecordingSession.STATE_UNAVAILABLE:
-                view.displayToast("The stem cannot be played.");
+                view.displayAlertDialog(R.string.dialog_title_failure, R.string.error_audio_player_unavailable);
                 break;
         }
 
@@ -79,7 +80,7 @@ public class RecordPresenter implements RecordContract.Presenter {
                 recordingSession.startStemRecording(stem);
                 break;
             case RecordingSession.STATE_UNAVAILABLE:
-                view.displayToast("The stem cannot be recorded.");
+                view.displayAlertDialog(R.string.dialog_title_failure, R.string.error_audio_recorder_unavailable);
                 break;
         }
 
@@ -94,10 +95,12 @@ public class RecordPresenter implements RecordContract.Presenter {
                 break;
             case RecordingSession.STATE_INACTIVE:
                 requestTrackFinalization();
-                recordingSession.startTrackPlayback();
-                break;
+                if (recordingSession.isAudioReady(recordingSession.getTrack())) {
+                    recordingSession.startTrackPlayback();
+                    break;
+                }
             case RecordingSession.STATE_UNAVAILABLE:
-                view.displayToast("The track cannot be played.");
+                view.displayAlertDialog(R.string.dialog_title_failure, R.string.error_audio_player_unavailable);
                 break;
         }
 
@@ -113,11 +116,11 @@ public class RecordPresenter implements RecordContract.Presenter {
     public void finalizeTrack() {
         requestTrackFinalization();
         repository.localDataSource.saveTrack(recordingSession.getTrack());
-        view.displayToast("Track saved!");
+        view.displayAlertDialog(R.string.dialog_title_success, R.string.finalization_successful);
     }
 
     private void requestTrackFinalization() {
-        view.displayProgressDialog("Finalizing track...");
+        view.displayProgressDialog(R.string.dialog_title_please_wait, R.string.finalization_in_progress);
         recordingSession.finalizeTrack();
         view.dismissProgressDialog();
     }

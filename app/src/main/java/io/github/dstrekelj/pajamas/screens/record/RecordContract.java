@@ -9,8 +9,9 @@ import io.github.dstrekelj.pajamas.screens.common.BaseView;
  */
 public interface RecordContract {
     interface View extends BaseView {
+        void displayAlertDialog(int titleResourceId, int messageResourceId);
         void dismissProgressDialog();
-        void displayProgressDialog(String text);
+        void displayProgressDialog(int titleResourceId, int messageResourceId);
 
         /**
          * Performs and displays the insertion of a new stem into the list of track stems.
