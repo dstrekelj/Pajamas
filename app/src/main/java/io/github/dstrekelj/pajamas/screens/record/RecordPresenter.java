@@ -121,6 +121,10 @@ public class RecordPresenter implements RecordContract.Presenter {
         view.displayProgressDialog(R.string.dialog_title_please_wait, R.string.finalization_in_progress);
         recordingSession.finalizeTrack();
         view.dismissProgressDialog();
+        if (!recordingSession.isAudioReady(recordingSession.getTrack())) {
+            view.displayAlertDialog(R.string.dialog_title_failure, R.string.error_finalization_failed);
+            return;
+        }
         repository.localDataSource.saveTrack(recordingSession.getTrack());
         view.displayAlertDialog(R.string.dialog_title_success, R.string.finalization_successful);
     }

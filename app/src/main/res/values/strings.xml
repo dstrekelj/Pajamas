@@ -29,8 +29,8 @@
     <string name="default_stem_title">Untitled Stem</string>
     <string name="finalization_in_progress">The track is being finalized.</string>
     <string name="finalization_successful">Track finalization was successful! Track has been saved to external storage in the application data directory.</string>
-    <string name="finalization_failed">Track finalization has failed.</string>
-    <string name="error_audio_player_unavailable">Audio player is unavailable. The audio buffer might be empty.</string>
+    <string name="error_finalization_failed">Track finalization has failed. The audio buffer might not be initialized.</string>
+    <string name="error_audio_player_unavailable">Audio player is unavailable. The audio buffer might not be initialized.</string>
     <string name="error_audio_recorder_unavailable">Audio recorder is unavailable. The audio recorder might be in use.</string>
 
 </resources>
